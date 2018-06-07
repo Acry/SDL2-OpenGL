@@ -5,6 +5,8 @@
 2 - Working with shaders  
 3 - Load a shadertoy shader  
 
+When working ith shaders use left mouse button and mouse motion to change view.  
+When working with multiple shaders use middle mouse button to switch shaders.  
 
 Useful links:  
 [SDL2](https://www.libsdl.org/) [SDL-Discourse](https://discourse.libsdl.org) [Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8)

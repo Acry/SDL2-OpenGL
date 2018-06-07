@@ -62,7 +62,7 @@ all: $(TARGETS)
 2b: $(srcdir)2b.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS3)
 
-# embed a multiple shader
+# embed multiple shader
 2c: $(srcdir)2c.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS3)
 
