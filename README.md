@@ -3,7 +3,7 @@
 0 - Init a simple OpenGL Window  
 1 - Draw and rotate rectangles  
 2 - Working with shaders  
-3 - Load a shadertoy shader  
+3 - Load a [shadertoy](https://www.shadertoy.com/) shader  
 
 When working with shaders use left mouse button and mouse motion to change view.  
 When working with multiple shaders use middle mouse button to switch shaders.  
