@@ -5,7 +5,7 @@
 2 - Working with shaders  
 3 - Load a shadertoy shader  
 
-When working ith shaders use left mouse button and mouse motion to change view.  
+When working with shaders use left mouse button and mouse motion to change view.  
 When working with multiple shaders use middle mouse button to switch shaders.  
 
 Useful links:  
