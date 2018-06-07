@@ -1,5 +1,4 @@
-### This is a starter series about GLSL Shaders using SDL2 as OpenGL Helper and
-a bit Shader-Language for C-Coders.
+### This is a starter series about GLSL Shaders using SDL2 as OpenGL Helper and a bit Shader-Language for C-Coders.
 
 0 - Init a simple OpenGL Window  
 1 - Draw and rotate rectangles  
@@ -13,7 +12,7 @@ Useful links:
 Screenshots:  
 ![Screenshot](shots/shot_1b.c.jpg)  
 ![Screenshot](shots/shot_2.c.jpg)  
-![Screenshot](shots/shot_3.c.jpg)  
+![Screenshot](shots/shot-3.c.jpg)  
 
 
 [Get in touch on SDL-Discourse](https://discourse.libsdl.org/u/Acry/summary)
