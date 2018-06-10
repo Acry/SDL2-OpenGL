@@ -2,6 +2,7 @@
 
 0 - Init a simple OpenGL Window  
 1 - Draw and rotate rectangles  
+texture_SOIL texture_SDL2 - Render Texture  
 2 - Working with shaders  
 3 - Load a [shadertoy](https://www.shadertoy.com/) shader  
 
