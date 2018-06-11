@@ -30,6 +30,7 @@ int ww=WW;
 int wh=WH;
 
 //BEGIN VISIBLES
+GLuint texture;
 //END 	VISIBLES
 
 //END   GLOBALS
@@ -122,6 +123,7 @@ while(running){
 	//END   RENDERING
 }
 //END   MAIN LOOP
+glDeleteTextures( 1, &texture );
 exit_();
 return EXIT_SUCCESS;
 
@@ -132,7 +134,6 @@ return EXIT_SUCCESS;
 void assets_in(void)
 {
 	//BEGIN	LOGO
-	GLuint texture;
 	texture = SOIL_load_OGL_texture // load image as OpenGL texture
 	(
 		"assets/textures/tex02.jpg",

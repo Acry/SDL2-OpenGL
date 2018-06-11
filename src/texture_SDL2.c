@@ -28,6 +28,7 @@ int ww=WW;
 int wh=WH;
 
 //BEGIN VISIBLES
+GLuint texture;
 //END 	VISIBLES
 
 //END   GLOBALS
@@ -122,6 +123,7 @@ while(running){
 	//END   RENDERING
 }
 //END   MAIN LOOP
+glDeleteTextures( 1, &texture );
 exit_();
 return EXIT_SUCCESS;
 
@@ -142,8 +144,6 @@ void assets_in(void)
 	// EnableTransparency
 	// 	glEnable(GL_BLEND);
 	// 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-	
-	GLuint texture;
 
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
