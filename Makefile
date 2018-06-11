@@ -3,8 +3,7 @@ WARN_OFF = -Wno-implicit-function-declaration
 CFLAGS1  = $(CFLAGS) $(WARN_OFF)
 LDFLAGS  = `sdl2-config --libs` -lm -lGL
 LDFLAGS1 = $(LDFLAGS)  -lSDL2_image
-
-LDFLAGS2 = $(LDFLAGS)  -lSOIL
+LDFLAGS2 = $(LDFLAGS) $(LDFLAGS1) -lSOIL
 LDFLAGS3 = $(LDFLAGS1) -lGLEW
 LDFLAGS4 = $(LDFLAGS)  -lGLU
 LDFLAGS5 = $(LDFLAGS1) $(LDFLAGS3)
@@ -14,7 +13,7 @@ LDFLAGS6 = $(LDFLAGS5) -lSDL2_mixer
 .SUFFIXES: .c .o
 
 srcdir	 =src/
-TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3
+TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 3a texture_SOIL texture_SDL2
 
 #for future code
 #texture 3a 3b 3c 3d 3e
@@ -93,8 +92,11 @@ all: $(TARGETS)
 3e: $(srcdir)3e.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS6)
 
-texture: $(srcdir)helper.c $(srcdir)texture.c
+texture_SOIL: $(srcdir)helper.c $(srcdir)texture_SOIL.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS2)
+
+texture_SDL2: $(srcdir)helper.c $(srcdir)texture_SDL2.c
+	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS1)
 
 4: $(srcdir)helper.c $(srcdir)4.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS2)

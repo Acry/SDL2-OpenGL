@@ -60,7 +60,6 @@ SDL_ShowWindow(Window);
 
 glClearColor(GL_WHITE);
 glClear(GL_COLOR_BUFFER_BIT);
-// glColor4f(1.0f, 0.5f, 1.0f, 1.0f);
 glViewport (0, 0, ww, wh);
 SDL_Event event;
 int running = 1;

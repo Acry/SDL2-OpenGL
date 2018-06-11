@@ -79,7 +79,6 @@ int main(int argc, char *argv[])
 	shading_program = custom_shaders(VERT, FRAG);
 	glReleaseShaderCompiler();
 
-
 	if (shading_program == 0){
 		Running = 0;
 	} else
