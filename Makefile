@@ -13,7 +13,7 @@ LDFLAGS6 = $(LDFLAGS5) -lSDL2_mixer
 .SUFFIXES: .c .o
 
 srcdir	 =src/
-TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 3a texture_SOIL texture_SDL2
+TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 texture_SOIL texture_SDL2
 
 #for future code
 #texture 3a 3b 3c 3d 3e
