@@ -1,3 +1,7 @@
+SHELL = /bin/sh
+.SUFFIXES:
+.SUFFIXES: .c .o
+
 CFLAGS   = -Wall -Wextra -mtune=native `sdl2-config --cflags`
 WARN_OFF = -Wno-implicit-function-declaration
 CFLAGS1  = $(CFLAGS) $(WARN_OFF)
@@ -9,14 +13,17 @@ LDFLAGS4 = $(LDFLAGS)  -lGLU
 LDFLAGS5 = $(LDFLAGS1) $(LDFLAGS3)
 LDFLAGS6 = $(LDFLAGS5) -lSDL2_mixer
 
-.SUFFIXES:
-.SUFFIXES: .c .o
-
 srcdir	 =src/
-TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 texture_SOIL texture_SDL2
+builddir =build/
+
+
+
+TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 3a1 texture_SOIL texture_SDL2 
+
 
 #for future code
-#texture 3a 3b 3c 3d 3e
+# gradient
+# texture 3a 3b 3c 3d 3e 
 
 .PHONY: all
 all: $(TARGETS)
@@ -73,15 +80,19 @@ all: $(TARGETS)
 3: $(srcdir)3.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS5)
 
-# embed a default shader
+# getting Textures work
 3a: $(srcdir)3a.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS5)
 
-# embed multiple default shaders and switch program during runtime
+# make new shader in preferred Editor
+3a1: $(srcdir)3a1.c
+	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS5)
+
+#
 3b: $(srcdir)3b.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS5)
 
-# load shadertoy fragment shader optional
+#
 3c: $(srcdir)3c.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS5)
 
@@ -96,6 +107,9 @@ texture_SOIL: $(srcdir)helper.c $(srcdir)texture_SOIL.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS2)
 
 texture_SDL2: $(srcdir)helper.c $(srcdir)texture_SDL2.c
+	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS1)
+
+gradient: $(srcdir)helper.c $(srcdir)gradient.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS1)
 
 4: $(srcdir)helper.c $(srcdir)4.c
