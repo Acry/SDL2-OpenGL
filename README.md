@@ -7,6 +7,7 @@ texture_SOIL texture_SDL2 - Render Texture
 3 - Load a [shadertoy](https://www.shadertoy.com/) shader  
 3a1 - press n to create new shader, will open in Editor  
   if file is changed and saved. press c to compile.  
+3a2 - should track if file in Editor was written and auto-compile.  
 
 When working with shaders use left mouse button and mouse motion to change view.  
 When working with multiple shaders use middle mouse button to switch shaders.  

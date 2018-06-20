@@ -18,7 +18,7 @@ builddir =build/
 
 
 
-TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 3a1 texture_SOIL texture_SDL2 
+TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 3a1 3a2 texture_SOIL texture_SDL2 
 
 
 #for future code
@@ -86,6 +86,10 @@ all: $(TARGETS)
 
 # make new shader in preferred Editor
 3a1: $(srcdir)3a1.c
+	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS5)
+
+# make new shader in preferred Editor, check file change via inotify an epoll
+3a2: $(srcdir)3a2.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS5)
 
 #
