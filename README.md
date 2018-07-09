@@ -12,7 +12,7 @@ texture_SOIL texture_SDL2 - Render Texture
 When working with shaders use left mouse button and mouse motion to change view.  
 When working with multiple shaders use middle mouse button to switch shaders.  
 
-The work on Shader Toy fragment Shaders has been split out to a extra project:  
+The work on Shader Toy Fragment Shaders has been split out to an extra project:  
 [Shade it!](https://github.com/Acry/Shade-it-), enjoy!
 
 
