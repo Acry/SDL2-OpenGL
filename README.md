@@ -12,8 +12,12 @@ texture_SOIL texture_SDL2 - Render Texture
 When working with shaders use left mouse button and mouse motion to change view.  
 When working with multiple shaders use middle mouse button to switch shaders.  
 
+The work on Shader Toy fragment Shaders has been split out to a extra project:  
+[Shade it!](https://github.com/Acry/Shade-it-), enjoy!
+
+
 Useful links:  
-[SDL2](https://www.libsdl.org/) | [SDL-Discourse](https://discourse.libsdl.org) | [SDL2-Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8) | [N. Nopper-Code](https://github.com/McNopper/OpenGL) | [McKesson-Book](https://paroj.github.io/gltut/)  
+[SDL2](https://www.libsdl.org/) | [SDL-Discourse](https://discourse.libsdl.org) | [SDL2-Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8) | [N. Nopper-Code](https://github.com/McNopper/OpenGL) | [McKesson-Book](https://paroj.github.io/gltut/) | [Íñigo Quílez](http://www.iquilezles.org/prods/index.htm)  
 
 Screenshots:  
 ![Screenshot](shots/shot_1b.c.jpg)  
