@@ -1,6 +1,6 @@
 //BEGIN HEAD
 //BEGIN DESCRIPTION
-/* load shadertoy fragment shader with argument
+/* load shader toy fragment shader as argument
  * query some vars on demand
  * TODO query all vars on demand
  * TODO more flexibility through custom shader and query all
@@ -165,7 +165,7 @@ int main(int argc, const char *argv[])
 	//END	INIT
 
 	//BEGIN MAINLOOP
-	
+
 	while (Running){
 		//BEGIN EVENTS
 		while ( SDL_PollEvent(&event) ){
@@ -197,22 +197,22 @@ int main(int argc, const char *argv[])
 			if(event.type == SDL_MOUSEBUTTONUP){
 				if( event.button.button==SDL_BUTTON_LEFT){
 					MBL_CLICK=0;
-				}	
+				}
 			}
 			if(event.type == SDL_KEYDOWN ){
 				switch(event.key.keysym.sym ){
 					case SDLK_ESCAPE:
 						Running = 0;
 						break;
-						
+
 					case SDLK_r:
 					case SDLK_BACKSPACE:
 						break;
-						
-					case SDLK_p:	
+
+					case SDLK_p:
 					case SDLK_SPACE:
 						break;
-						
+
 					default:
 						break;
 				}
@@ -289,20 +289,20 @@ GLuint shadertoy_shader(const char *fsPath)
 	sources[2] = read_file(fsPath);
 	sources[3] = fragment_shader_footer;
 	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
-	
+
 	shading_program[3] = glCreateProgram();
-	
+
 	glAttachShader(shading_program[3], vtx);
 	glAttachShader(shading_program[3], frag);
-	
+
 	glLinkProgram(shading_program[3]);
-	
+
 	GLuint status;
 	status=program_check(shading_program[3]);
 	if (status==GL_FALSE)
 		return 0;
 	return shading_program[3];
-	
+
 }
 
 GLuint GetShader(GLenum eShaderType, const char *filename)
@@ -320,14 +320,14 @@ GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 	GLuint  shader;
 	GLint   success, len;
 	GLsizei i, srclens[nsources];
-	
+
 	for (i = 0; i < nsources; ++i)
 		srclens[i] = (GLsizei)strlen(sources[i]);
-	
+
 	shader = glCreateShader(type);
 	glShaderSource(shader, nsources, sources, srclens);
 	glCompileShader(shader);
-	
+
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
@@ -350,7 +350,7 @@ GLuint default_shaders(GLuint choice)
 	vtx = default_vertex();
 	if (vtx==0)
 		return 0;
-	
+
 	GLuint frag;
 	const char *sources[4];
 	sources[0] = common_shader_header;
@@ -370,7 +370,7 @@ GLuint default_shaders(GLuint choice)
 			//some statements to execute when default;
 			break;
 	}
-	
+
 	sources[3] = fragment_shader_footer;
 	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
 
@@ -397,7 +397,7 @@ GLuint default_vertex(void)
 	sources[1] = vertex_shader_body;
 	vtx = compile_shader(GL_VERTEX_SHADER, 2, sources);
 	return vtx;
-	
+
 }
 
 GLuint program_check(GLuint program)
@@ -442,17 +442,17 @@ void query_vars(GLuint choice)
 
 	GLint i;
 	GLint count;
-	
+
 	GLint size;
 	GLenum type;
-	
+
 	const GLsizei bufSize = 16;
 	GLchar name[bufSize];
 	GLsizei length;
 
 	glGetProgramiv(shading_program[choice], GL_ACTIVE_ATTRIBUTES, &count);
 
-	
+
 	for (i = 0; i < count; i++){
 		glGetActiveAttrib(shading_program[choice], (GLuint)i, bufSize, &length, &size, &type, name);
 		if (!strcmp("iPosition",name)){
@@ -460,15 +460,15 @@ void query_vars(GLuint choice)
 		}
 
 	}
-	
+
 
 	glGetProgramiv(shading_program[choice], GL_ACTIVE_UNIFORMS, &count);
-	
+
 	char global_time1[]="iTime";
 	char global_time2[]="iGlobalTime";
 	for (i = 0; i < count; i++){
 		glGetActiveUniform(shading_program[choice], (GLuint)i, bufSize, &length, &size, &type, name);
-		
+
 		SDL_Log("Uniform #%d Type: %u Name: %s\n", i, type, name);
 		if (!strcmp(global_time1,name)||!strcmp(global_time2,name)){
 			uniform_gtime = i;
@@ -484,13 +484,13 @@ float fTime(void)
 
 	static Uint64 start 	 = 0;
 	static Uint64 frequency  = 0;
-	
+
 	if (start==0){
 		start		=	SDL_GetPerformanceCounter();
 		frequency	=	SDL_GetPerformanceFrequency();
 		return 0.0f;
 	}
-	
+
 	Uint64 counter    = 0;
 	       counter    = SDL_GetPerformanceCounter();
 	Uint64 accumulate = counter - start;
@@ -519,7 +519,7 @@ void init_glew(void)
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,   &maj);
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,   &min);
 	SDL_Log("Using OpenGL %d.%d", maj, min);
-	
+
 	if (!GLEW_VERSION_2_0){
 		SDL_Log("At least OpenGL 2.0 with GLSL 1.10 required.");
 		Running = 0;
@@ -547,7 +547,7 @@ const char * read_file(const char *filename)
 		if(result) {
 			size_t actual_length = fread(result, sizeof(char), length , file);
 			result[actual_length++] = '\0';
-		} 
+		}
 		fclose(file);
 		return result;
 	}
