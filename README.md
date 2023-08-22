@@ -26,7 +26,9 @@ And a bit GLSL for C-Coders.
 
 ![Screenshot](shots/shot_1c.c.jpg)
 
-- `1d` - SGI Atlantis Demo ported to SDL2
+- `1d` - SGI Teapot Demo ported to SDL2 (TBD)
+
+- `1e` - SGI Atlantis Demo ported to SDL2 (TBD)
 
 ## Modern OpenGL
 
@@ -42,7 +44,7 @@ Some libraries to load image textures:
 - texture_devil
 - texture_SDL2
 - texture_SOIL
-- texture_stb_image (TBD)
+- texture_stb_image
 
 ## GLSL - Shaders
 
