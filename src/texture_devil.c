@@ -12,7 +12,6 @@
 //system headers
 #include <IL/il.h>
 #include <IL/ilu.h>
-#include <math.h>
 //local headers
 #include "helper.h"
 //END   INCLUDES

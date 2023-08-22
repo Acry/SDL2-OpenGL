@@ -31,9 +31,9 @@ Retained-mode using `VAO` / `VBO`
 
 Some libraries to load image textures:
 
+- texture_devil
 - texture_SDL2
 - texture_SOIL
-- texture_devil
 - texture_stb_image (TBD)
 
 ## GLSL - Shaders
@@ -61,6 +61,10 @@ When working with multiple shaders use middle mouse button to switch shaders.
 
 The work on Shader Toy Fragment Shaders has been split out to an extra project:
 [Shade it!](https://github.com/Acry/Shade-it-), enjoy!
+
+## Dependencies
+
+`pacman -S soil devil sdl2 sdl2_image glew glu`
 
 ## Useful links
 

@@ -2,16 +2,16 @@ SHELL = /bin/sh
 .SUFFIXES:
 .SUFFIXES: .c .o
 
-CFLAGS   = -Wall -Wextra -mtune=native `sdl2-config --cflags`
+CFLAGS   = -Wall -Wextra -mtune=native -no-pie `sdl2-config --cflags`
 WARN_OFF = -Wno-implicit-function-declaration
 CFLAGS1  = $(CFLAGS) $(WARN_OFF)
+
 LDFLAGS  = `sdl2-config --libs` -lm -lGL
 LDFLAGS1 = $(LDFLAGS)  -lSDL2_image
 LDFLAGS2 = $(LDFLAGS) $(LDFLAGS1) -lSOIL
 LDFLAGS3 = $(LDFLAGS1) -lGLEW
 LDFLAGS4 = $(LDFLAGS)  -lGLU
 LDFLAGS5 = $(LDFLAGS1) $(LDFLAGS3)
-LDFLAGS6 = $(LDFLAGS5) -lSDL2_mixer
 
 # Define the source directory
 SOURCE_DIR := src/
@@ -91,21 +91,6 @@ all: $(TARGETS)
 3a2: $(SOURCE_DIR)3a2.c
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS5)
 
-#
-3b: $(SOURCE_DIR)3b.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS5)
-
-#
-3c: $(SOURCE_DIR)3c.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS5)
-
-
-3d: $(SOURCE_DIR)3d.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS5)
-
-3e: $(SOURCE_DIR)3e.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS6)
-
 texture_SOIL: $(SOURCE_DIR)helper.c $(SOURCE_DIR)texture_SOIL.c
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS2)
 
@@ -114,15 +99,6 @@ texture_SDL2: $(SOURCE_DIR)helper.c $(SOURCE_DIR)texture_SDL2.c
 
 texture_devil: $(SOURCE_DIR)helper.c $(SOURCE_DIR)texture_devil.c
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS1) -lIL -lILU
-
-gradient: $(SOURCE_DIR)helper.c $(SOURCE_DIR)gradient.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS1)
-
-4: $(SOURCE_DIR)helper.c $(SOURCE_DIR)4.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS2)
-
-5: $(SOURCE_DIR)helper.c $(SOURCE_DIR)5.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS3)
 
 .PHONY: clean
 clean:
