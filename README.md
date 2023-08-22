@@ -9,24 +9,24 @@ And a bit GLSL for C-Coders.
 
  `Immediate mode` is nice because the entry barrier is extremely low.
 
-- 0 - Init a simple OpenGL Window, on Linux it defaults to OpenGL 2.1
-- 1 - Draw rectangle
+- `0` - Init a simple OpenGL Window, on Linux it defaults to OpenGL 2.1
+- `1` - Draw rectangle
 
 ![Screenshot](shots/shot_1.c.jpg)
 
-- 1a -Draw rectangles
+- `1a` -Draw rectangles
 
 ![Screenshot](shots/shot_1a.c.jpg)
 
-- 1b - Rotate rectangles uniformly
+- `1b` - Rotate rectangles uniformly
 
 ![Screenshot](shots/shot_1b.c.jpg)
 
-- 1c - Rotate rectangles individually
+- `1c` - Rotate rectangles individually
 
 ![Screenshot](shots/shot_1c.c.jpg)
 
-- 1d - SGI Atlantis Demo ported to SDL2
+- `1d` - SGI Atlantis Demo ported to SDL2
 
 ## Modern OpenGL
 
@@ -52,7 +52,7 @@ Some libraries to load image textures:
 
 ## Shadertoy
 
-3 - Load a [shadertoy](https://www.shadertoy.com/) shader from command line and switch between shaders with middle mouse button.
+`3` - Load a [shadertoy](https://www.shadertoy.com/) shader from command line and switch between shaders with middle mouse button.
 
 ![Screenshot](shots/shot_3.c.jpg)
 
