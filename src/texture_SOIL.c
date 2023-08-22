@@ -99,17 +99,17 @@ while(running){
 				case SDLK_BACKSPACE:
 					break;
 
-				case SDLK_p:	
+				case SDLK_p:
 				case SDLK_SPACE:
 					break;
-					
+
 				default:
 					break;
 			}
 		}
 	}
 	//END   EVENT LOOP
-	
+
 	//BEGIN RENDERING
 
 	glBegin(GL_QUADS);					    	// Draw textured Quad
@@ -136,7 +136,7 @@ void assets_in(void)
 	//BEGIN	LOGO
 	texture = SOIL_load_OGL_texture // load image as OpenGL texture
 	(
-		"assets/textures/tex02.jpg",
+		"../assets/textures/tex02.jpg",
 		4,	//SOIL_LOAD_RGBA
 		0,	//SOIL_CREATE_NEW_ID
 		SOIL_FLAG_POWER_OF_TWO
@@ -144,10 +144,10 @@ void assets_in(void)
 
 	glBindTexture(GL_TEXTURE_2D, texture);
 	//END 	LOGO
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	glEnable(GL_TEXTURE_2D);
 }
 //END   FUNCTIONS

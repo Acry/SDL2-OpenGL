@@ -1,15 +1,15 @@
 /* Render a colorful gradient like in:
- * 
+ *
  * https://github.com/Acry/SDL2-Surfaces/blob/master/src/7.c
  * and
  * https://github.com/Acry/SDL2-Renderer/blob/master/src/3.c
- * 
+ *
  * and animate it.
  */
 
 /* We need a timing function to privide time passed in float.
  * A uniform in the fragment shader:
- * uniform 	float fTime; 
+ * uniform 	float fTime;
  * And use it int the equation to define the fragment color.
  *
  * BUT - All I could get was this white flickering.
@@ -23,16 +23,15 @@
 #include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_image.h> // Just for the icon - easy to strip out
 
-// #define FRAG	"assets/shader/frag/2a.frag"
-#define FRAG	"assets/shader/frag/5.frag"
-#define VERT	"assets/shader/vert/2.vert"
+#define FRAG	"../assets/shader/frag/5.frag"
+#define VERT	"../assets/shader/vert/2.vert"
 /*
  * Uniform variables are used to communicate with your vertex or fragment shader
  * from "outside". In your shader you use the uniform qualifier to declare the
  * variable.
- * 
+ *
  * As of GLSL 130+, in and out are used instead of attribute and varying.
- * 
+ *
  * I like this overview:
  * https://github.com/mattdesl/lwjgl-basics/wiki/glsl-versions
  */
@@ -65,24 +64,24 @@ int main(int argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
-	
+
 	SDL_Init(SDL_INIT_VIDEO);
-	
+
 	SDL_Window *Window = SDL_CreateWindow("2a - Color Gradient",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		ww, wh,
 		SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL |SDL_WINDOW_RESIZABLE);
-	
+
 	//BEGIN ICON
 	SDL_Surface *icon;
-	icon=IMG_Load("./assets/gfx/icon.png");
+	icon=IMG_Load("../assets/gfx/icon.png");
 	SDL_SetWindowIcon(Window, icon);
 	SDL_FreeSurface(icon);
 	//END 	ICON
 
 	SDL_GLContext glContext = SDL_GL_CreateContext(Window);
-	
+
 	shading_program = custom_shaders(VERT, FRAG);
 	glReleaseShaderCompiler();
 
@@ -91,15 +90,15 @@ int main(int argc, char *argv[])
 		Running = 0;
 	} else
 		SDL_Log("Using program %d\n", shading_program);
-	
+
 	if (glGetError()!=0)
 		SDL_Log("glError: %#08x\n", glGetError());
-	
+
 	glUseProgram(shading_program);
-	
+
 	static GLint uniform_gtime;
 	uniform_gtime = glGetUniformLocation(shading_program, "fTime");
-	
+
 	while (Running){
 		SDL_Event event;
 		while ( SDL_PollEvent(&event) ){
@@ -119,7 +118,7 @@ int main(int argc, char *argv[])
 		glUniform1f(uniform_gtime, fTime());
 
 		SDL_GL_SwapWindow(Window);
-	} 
+	}
 
 	SDL_GL_DeleteContext(glContext);
 	SDL_Quit();
@@ -147,7 +146,7 @@ const char * read_file(const char *filename)
 		if(result) {
 			size_t actual_length = fread(result, sizeof(char), length , file);
 			result[actual_length++] = '\0';
-		} 
+		}
 		fclose(file);
 		return result;
 	}
@@ -157,21 +156,21 @@ const char * read_file(const char *filename)
 
 float fTime(void)
 {
-	
+
 	static Uint64 start 	 = 0;
 	static Uint64 frequency  = 0;
-	
+
 	if (start==0){
 		start		 =	SDL_GetPerformanceCounter();
 		frequency	 =	SDL_GetPerformanceFrequency();
 		return 0.0f;
 	}
-	
+
 	Uint64 counter    	 = 0;
 	counter    		 = SDL_GetPerformanceCounter();
 	Uint64 accumulate 	 = counter - start;
 	return   (float)accumulate / (float)frequency;
-	
+
 }
 
 
@@ -180,50 +179,50 @@ GLuint custom_shaders(const char *vsPath, const char *fsPath)
 {
 	GLuint vertexShader;
 	GLuint fragmentShader;
-	
+
 	vertexShader   = GetShader(GL_VERTEX_SHADER,   vsPath);
 	fragmentShader = GetShader(GL_FRAGMENT_SHADER, fsPath);
-	
+
 	shading_program = glCreateProgram();
-	
+
 	glAttachShader(shading_program, vertexShader);
 	glAttachShader(shading_program, fragmentShader);
-	
+
 	glLinkProgram(shading_program);
-	
-	
+
+
 	//Error Checking
 	GLuint status;
 	status=program_check(shading_program);
 	if (status==GL_FALSE)
 		return 0;
 	return shading_program;
-	
+
 }
 
 GLuint GetShader(GLenum eShaderType, const char *filename)
 {
-	
+
 	const char *shaderSource=read_file(filename);
 	GLuint shader = compile_shader(eShaderType, 1, &shaderSource);
 	return shader;
-	
+
 }
 
 GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 {
-	
+
 	GLuint  shader;
 	GLint   success, len;
 	GLsizei i, srclens[nsources];
-	
+
 	for (i = 0; i < nsources; ++i)
 		srclens[i] = (GLsizei)strlen(sources[i]);
-	
+
 	shader = glCreateShader(type);
 	glShaderSource(shader, nsources, sources, srclens);
 	glCompileShader(shader);
-	
+
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);

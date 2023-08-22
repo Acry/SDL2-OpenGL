@@ -98,17 +98,17 @@ while(running){
 				case SDLK_BACKSPACE:
 					break;
 
-				case SDLK_p:	
+				case SDLK_p:
 				case SDLK_SPACE:
 					break;
-					
+
 				default:
 					break;
 			}
 		}
 	}
 	//END   EVENT LOOP
-	
+
 	//BEGIN RENDERING
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -135,12 +135,12 @@ void assets_in(void)
 {
 	//BEGIN	LOGO
 	// Load surface
-	SDL_Surface* surface = IMG_Load("assets/textures/tex02.jpg");
+	SDL_Surface* surface = IMG_Load("../assets/textures/tex02.jpg");
 	SDL_Log("BytesPerPixel: %d",surface->format->BytesPerPixel);
 // 	surface=flip_vertical(surface);
 // 	surface=flip_horizontal(surface);
 	glEnable(GL_TEXTURE_2D);
-	
+
 	// EnableTransparency
 	// 	glEnable(GL_BLEND);
 	// 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
@@ -150,15 +150,15 @@ void assets_in(void)
 
 
 // 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	
+
 	//Filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	
+
 	//Wrapping
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 
 	glTexImage2D	(GL_TEXTURE_2D, 	// target
@@ -181,45 +181,45 @@ SDL_Surface * flip_horizontal(SDL_Surface *sfc)
 	// What is pitch and stride?
 	// Stride means bytes in a row of pixels including any padding.
 	// Pitch should be a synonym.
-	
+
 	// Pitch, absolute value, the number of bytes per bitmap line;
 	// it can be either positive or negative depending on the bitmap's vertical orientation
-	
+
 	// To find a specific pixel in the padded image, you go like this:
 	// Pixel = (y   * pitch) + x;
 	// Pixel = (line*pitch ) +col
-	
+
 	// 	SDL_PixelFormat *format;    Read-only
 	// 	int w, h;                   Read-only
 	// 	int pitch;                  Read-only, the length of a row of pixels in bytes
 	// 	void *pixels;               Read-write
-	
+
 	SDL_Surface *result= SDL_CreateRGBSurfaceWithFormat(0,sfc->w,sfc->h, sfc->format->BytesPerPixel, sfc->format->format);
 	size_t pitch 	= sfc->pitch;
 	int pxlength 	= pitch*sfc->h;
-	
+
 	void *pixels 	= sfc->pixels + pxlength;	// last pixel
-	void *rpixels 	= result->pixels;		// first pixel	
-	
+	void *rpixels 	= result->pixels;		// first pixel
+
 	for(int line 	= 0; line < sfc->h; ++line){
 		memcpy(rpixels,pixels,pitch);		// copy the line
 		pixels -= pitch;			// count down
 		rpixels += pitch;			// count up
 	}
 	return result;
-	
+
 }
 
 SDL_Surface * flip_vertical(SDL_Surface *sfc)
 {
 	SDL_Surface *result= SDL_CreateRGBSurfaceWithFormat(0,sfc->w,sfc->h, sfc->format->BytesPerPixel, sfc->format->format);
-	
+
 	int pitch 	= sfc->pitch;
 	void *pixels 	= sfc->pixels;
 	void *rpixels 	= result->pixels+pitch;
-	
+
 	size_t lenght = sfc->format->BytesPerPixel;
-	
+
 	for(int line = 0; line < sfc->h; ++line){
 		for (int col = 0; col < sfc->w; col++){
 			memcpy(rpixels,pixels,lenght);
@@ -229,5 +229,5 @@ SDL_Surface * flip_vertical(SDL_Surface *sfc)
 		rpixels+=2*pitch;
 	}
 	return result;
-	
+
 }
