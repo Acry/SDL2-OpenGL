@@ -8,7 +8,6 @@ CFLAGS1  = $(CFLAGS) $(WARN_OFF)
 
 LDFLAGS  = `sdl2-config --libs` -lm -lGL
 LDFLAGS1 = $(LDFLAGS)  -lSDL2_image
-LDFLAGS2 = $(LDFLAGS) $(LDFLAGS1) -lSOIL
 LDFLAGS3 = $(LDFLAGS1) -lGLEW
 LDFLAGS4 = $(LDFLAGS)  -lGLU
 LDFLAGS5 = $(LDFLAGS1) $(LDFLAGS3)
@@ -92,7 +91,7 @@ all: $(TARGETS)
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS5)
 
 texture_SOIL: $(SOURCE_DIR)helper.c $(SOURCE_DIR)texture_SOIL.c
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS2)
+	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS1) -lSOIL
 
 texture_SDL2: $(SOURCE_DIR)helper.c $(SOURCE_DIR)texture_SDL2.c
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS1)
