@@ -22,7 +22,7 @@ BUILD_DIR := build/
 # Create the build directory if it doesn't exist
 $(shell mkdir -p $(BUILD_DIR))
 
-TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 3a1 3a2 texture_SOIL texture_SDL2
+TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 3a1 3a2 texture_SOIL texture_SDL2 texture_devil
 
 .PHONY: all
 all: $(TARGETS)
@@ -111,6 +111,9 @@ texture_SOIL: $(SOURCE_DIR)helper.c $(SOURCE_DIR)texture_SOIL.c
 
 texture_SDL2: $(SOURCE_DIR)helper.c $(SOURCE_DIR)texture_SDL2.c
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS1)
+
+texture_devil: $(SOURCE_DIR)helper.c $(SOURCE_DIR)texture_devil.c
+	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS1) -lIL -lILU
 
 gradient: $(SOURCE_DIR)helper.c $(SOURCE_DIR)gradient.c
 	$(CC) $(CFLAGS) -o $(BUILD_DIR)$@ $+ $(LDFLAGS1)

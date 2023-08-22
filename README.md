@@ -27,11 +27,13 @@ hurdle (and, much faster).
 
 Retained-mode using `VAO` / `VBO`
 
-## Image Textures
+## Image Texture Libraries
+
+Some libraries to load image textures:
 
 - texture_SDL2
 - texture_SOIL
-- texture_devil (TBD)
+- texture_devil
 - texture_stb_image (TBD)
 
 ## GLSL - Shaders
