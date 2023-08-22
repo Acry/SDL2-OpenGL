@@ -57,16 +57,16 @@ Some libraries to load image textures:
 ![Screenshot](shots/shot_3.c.jpg)
 
 Try:
-`./3 ../assets/shader/shadertoy/4ltSRS_nebula_smoke`
-`./3 ../assets/shader/shadertoy/Ms2SD1_Seascape`
+- `./3 ../assets/shader/shadertoy/4ltSRS_nebula_smoke`
+- `./3 ../assets/shader/shadertoy/Ms2SD1_Seascape`
 
-`3a1` - press n to create new shader, will open in Editor
-  if file is changed and saved. press c to compile.
+`3a1` - press `n` to create new shader, will open in Editor
+  if file is changed and saved. press `c` to compile.
 
-`3a2` - should track if file in Editor was written and auto-compile.
+`3a2` - should track if file in Editor was written and **auto-compile**.
 
-When working with shaders use left mouse button and mouse motion to change view.
-When working with multiple shaders use middle mouse button to switch shaders.
+- When working with shaders use left mouse button and mouse motion to change view.
+- When working with multiple shaders use middle mouse button to switch shaders.
 
 The work on Shader Toy Fragment Shaders has been split out to an extra project:
 [Shade it!](https://github.com/Acry/Shade-it-), enjoy!
