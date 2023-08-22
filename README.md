@@ -11,13 +11,21 @@ And a bit GLSL for C-Coders.
 
 - 0 - Init a simple OpenGL Window, on Linux it defaults to OpenGL 2.1
 - 1 - Draw rectangle
+
 ![Screenshot](shots/shot_1.c.jpg)
+
 - 1a -Draw rectangles
+
 ![Screenshot](shots/shot_1a.c.jpg)
+
 - 1b - Rotate rectangles uniformly
+
 ![Screenshot](shots/shot_1b.c.jpg)
+
 - 1c - Rotate rectangles individually
+
 ![Screenshot](shots/shot_1c.c.jpg)
+
 - 1d - SGI Atlantis Demo ported to SDL2
 
 ## Modern OpenGL
@@ -39,6 +47,7 @@ Some libraries to load image textures:
 ## GLSL - Shaders
 
 2 - Shader-Setup
+
 ![Screenshot](shots/shot_2.c.jpg)
 
 ## Shadertoy
@@ -48,13 +57,13 @@ Some libraries to load image textures:
 ![Screenshot](shots/shot_3.c.jpg)
 
 Try:
-``./3 ../assets/shader/shadertoy/4ltSRS_nebula_smoke`
-``./3 ../assets/shader/shadertoy/Ms2SD1_Seascape`
-`
-3a1 - press n to create new shader, will open in Editor
+`./3 ../assets/shader/shadertoy/4ltSRS_nebula_smoke`
+`./3 ../assets/shader/shadertoy/Ms2SD1_Seascape`
+
+`3a1` - press n to create new shader, will open in Editor
   if file is changed and saved. press c to compile.
 
-3a2 - should track if file in Editor was written and auto-compile.
+`3a2` - should track if file in Editor was written and auto-compile.
 
 When working with shaders use left mouse button and mouse motion to change view.
 When working with multiple shaders use middle mouse button to switch shaders.
