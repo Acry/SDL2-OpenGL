@@ -110,12 +110,15 @@ int main(int argc, char *argv[])
 		glUniform1f(uniform_gtime, fTime());
 		SDL_GL_SwapWindow(Window);
 	}
+
+    // free resources
 	for (int i=0; i<3; i++){
 		if (glIsProgram(shading_program_id[i]))
 			glDeleteProgram(shading_program_id[i]);
 	}
 	SDL_GL_DeleteContext(glContext);
 	SDL_Quit();
+
 	return EXIT_SUCCESS;
 }
 
@@ -145,6 +148,7 @@ const char * read_file(const char *filename)
 		return result;
 	}
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR,"Couldn't read %s", filename);
+
 	return NULL;
 }
 
@@ -161,6 +165,7 @@ float fTime(void)
 
     Uint64 counter    	 = SDL_GetPerformanceCounter();
 	Uint64 accumulate 	 = counter - start;
+
 	return   (float)accumulate / (float)frequency;
 }
 
@@ -197,6 +202,7 @@ GLuint GetShader(GLenum eShaderType, const char *filename)
 {
 	const char *shaderSource=read_file(filename);
 	GLuint shader = compile_shader(eShaderType, 1, &shaderSource);
+
 	return shader;
 }
 
@@ -214,6 +220,7 @@ GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 	glCompileShader(shader);
 
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+
 	if (!success) {
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
 		if (len > 1) {
@@ -246,7 +253,6 @@ GLuint program_check(GLuint program)
 			log = malloc(len);
 			glGetProgramInfoLog(program, sizeof(log), &len, log);
 			SDL_LogError(SDL_LOG_CATEGORY_ERROR,"%s\n\n", log);
-			// 			fprintf(stderr, "%s\n\n", log);
 			free(log);
 		}
 		glDeleteProgram(program);
@@ -258,18 +264,20 @@ GLuint program_check(GLuint program)
 }
 
 //END 	GPU PROGRAM CREATION
+
 GLuint default_shaders(GLuint choice)
 {
 	SDL_Log("choice def: %d", choice);
 	GLuint vtx;
 	vtx = default_vertex();
-	if (vtx==0)
-		return 0;
+
+	if (vtx==0) return 0;
 
 	GLuint frag;
 	const char *sources[4];
 	sources[0] = common_shader_header;
 	sources[1] = fragment_shader_header;
+
 	switch(choice)
 	{
 		case 0:
@@ -282,7 +290,6 @@ GLuint default_shaders(GLuint choice)
 			sources[2] = default_fragment_shader;
 			break;
 		default:
-			//some statements to execute when default;
 			break;
 	}
 
@@ -297,8 +304,7 @@ GLuint default_shaders(GLuint choice)
 	//Error Checking
 	GLuint status;
 	status=program_check(shading_program_id[choice]);
-	if (status==GL_FALSE)
-		return 0;
+	if (status==GL_FALSE) return 0;
 
 	return shading_program_id[choice];
 }

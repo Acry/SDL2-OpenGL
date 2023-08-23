@@ -1,8 +1,9 @@
 //BEGIN HEAD
 //BEGIN DESCRIPTION
-/* 
+/*
+ * Crate new shader and compile it
  * Press 'n' to write new shadertoy file,
- * should open in kate for now.
+ * should open in vscode for now.
  * Press 'c' to compile and use if valid
  * 
  * TODO Try inotify interface to monitor file change and try shader compile
@@ -49,14 +50,15 @@ char hash_current[]="006a3fb6cfb35cc8eaeecf66a4fd166f49c6917e";
 char hash_last[]   ="006a3fb6cfb35cc8eaeecf66a4fd166f49c6917e";
 
 GLfloat vertices[] = {
-	 -1.0f,   -1.0f,
-	  1.0f,   -1.0f,
-	 -1.0f,    1.0f,
-	  1.0f,    1.0f,
+	-1.0f,   -1.0f,
+	 1.0f,   -1.0f,
+	-1.0f,    1.0f,
+	 1.0f,    1.0f,
 };
 
 //3 from header, one optionally loaded
 GLuint shading_program_id[5];
+
 GLint attrib_position;		// Vertex Shader Attribute
 
 //Used Uniforms so far
@@ -141,17 +143,15 @@ int main(int argc, const char *argv[])
 		ww, wh,
 		SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL |SDL_WINDOW_RESIZABLE);
 
-		//BEGIN ICON
+	//BEGIN ICON
 
-		SDL_Surface *icon;
-		icon=IMG_Load("./assets/gfx/icon.png");
-		SDL_SetWindowIcon(Window, icon);
-		SDL_FreeSurface(icon);
+	SDL_Surface *icon;
+	icon=IMG_Load("../assets/gfx/icon.png");
+	SDL_SetWindowIcon(Window, icon);
+	SDL_FreeSurface(icon);
 
-		//END 	ICON
-		
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	//END 	ICON
+
 	SDL_GLContext glContext = SDL_GL_CreateContext(Window);
 
 	//END 	INIT SDL2
@@ -205,7 +205,7 @@ int main(int argc, const char *argv[])
 	//END	INIT
 
 	//BEGIN MAINLOOP
-	
+
 	while (Running){
 
 		//BEGIN EVENTS
@@ -216,10 +216,10 @@ int main(int argc, const char *argv[])
 				Running = 0;
 			if(event.type == SDL_WINDOWEVENT){
 				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED){
-					ww=event.window.data1;
-					wh=event.window.data2;
+                    ww = event.window.data1;
+                    wh = event.window.data2;
 					glViewport (0, 0, ww, wh);
-					glUniform3f(uniform_res, ww, wh, 0.0f);
+					glUniform3f(uniform_res, (float)ww, (float)wh, 0.0f);
 				}
 			}
 			if(event.type == SDL_MOUSEMOTION){
@@ -239,7 +239,7 @@ int main(int argc, const char *argv[])
 			if(event.type == SDL_MOUSEBUTTONUP){
 				if( event.button.button==SDL_BUTTON_LEFT){
 					MBL_CLICK=0;
-				}	
+				}
 			}
 			if(event.type == SDL_KEYDOWN ){
 				switch(event.key.keysym.sym ){
@@ -255,11 +255,9 @@ int main(int argc, const char *argv[])
 					case SDLK_r:
 					case SDLK_BACKSPACE:
 						break;
-						
-					case SDLK_p:	
+					case SDLK_p:
 					case SDLK_SPACE:
 						break;
-						
 					default:
 						break;
 				}
@@ -285,7 +283,9 @@ int main(int argc, const char *argv[])
 		SDL_GL_SwapWindow(Window);
 
 		//END 	RENDERING
+
 	}
+
 	//END 	MAINLOOP
 
 	//BEGIN EXIT
@@ -347,12 +347,12 @@ GLuint shadertoy_shader(const char *fsPath)
 	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
 
     shading_program_id[3] = glCreateProgram();
-	
+
 	glAttachShader(shading_program_id[3], vtx);
 	glAttachShader(shading_program_id[3], frag);
-	
+
 	glLinkProgram(shading_program_id[3]);
-	
+
 	GLuint status;
 	status=program_check(shading_program_id[3]);
 
@@ -374,15 +374,16 @@ GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 	GLuint  shader;
 	GLint   success, len;
 	GLsizei i, srclens[nsources];
-	
+
 	for (i = 0; i < nsources; ++i)
 		srclens[i] = (GLsizei)strlen(sources[i]);
-	
+
 	shader = glCreateShader(type);
 	glShaderSource(shader, nsources, sources, srclens);
 	glCompileShader(shader);
-	
+
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+
 	if (!success) {
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
 		if (len > 1) {
@@ -394,6 +395,7 @@ GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 		}
 		SDL_Log("Error compiling shader.\n");
 	}
+	SDL_Log("shader: %u",shader);
 
 	return shader;
 }
@@ -403,9 +405,8 @@ GLuint default_shaders(GLuint choice)
 	SDL_Log("choice def: %d", choice);
 	GLuint vtx;
 	vtx = default_vertex();
-	if (vtx==0)
-		return 0;
-	
+	if (vtx==0) return 0;
+
 	GLuint frag;
 	const char *sources[4];
 	sources[0] = common_shader_header;
@@ -422,10 +423,9 @@ GLuint default_shaders(GLuint choice)
 			sources[2] = default_fragment_shader;
 			break;
 		default:
-			//some statements to execute when default;
 			break;
 	}
-	
+
 	sources[3] = fragment_shader_footer;
 	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
 
@@ -434,7 +434,7 @@ GLuint default_shaders(GLuint choice)
 	glAttachShader(shading_program_id[choice], frag);
 	glLinkProgram(shading_program_id[choice]);
 
-
+	//Error Checking
 	GLuint status;
 	status=program_check(shading_program_id[choice]);
 
@@ -442,7 +442,6 @@ GLuint default_shaders(GLuint choice)
 
 	return shading_program_id[choice];
 }
-
 
 GLuint default_vertex(void)
 {
@@ -476,6 +475,7 @@ GLuint program_check(GLuint program)
 
 	return GL_TRUE;
 }
+
 //END 	GPU PROGRAM CREATION
 
 void query_shadertoy_old_vars(GLuint choice)
@@ -495,10 +495,10 @@ void query_vars(GLuint choice)
 {
 	GLint i;
 	GLint count;
-	
+
 	GLint size;
 	GLenum type;
-	
+
 	const GLsizei bufSize = 16;
 	GLchar name[bufSize];
 	GLsizei length;
@@ -513,12 +513,12 @@ void query_vars(GLuint choice)
 	}
 
 	glGetProgramiv(shading_program_id[choice], GL_ACTIVE_UNIFORMS, &count);
-	
+
 	char global_time1[]="iTime";
 	char global_time2[]="iGlobalTime";
 	for (i = 0; i < count; i++){
 		glGetActiveUniform(shading_program_id[choice], (GLuint)i, bufSize, &length, &size, &type, name);
-		
+
 		SDL_Log("Uniform #%d Type: %u Name: %s\n", i, type, name);
 		if (!strcmp(global_time1,name)||!strcmp(global_time2,name)){
 			uniform_gtime = i;
@@ -534,12 +534,13 @@ float fTime(void)
 {
 	static Uint64 start 	 = 0;
 	static Uint64 frequency  = 0;
-	
+
 	if (start==0){
 		start		=	SDL_GetPerformanceCounter();
 		frequency	=	SDL_GetPerformanceFrequency();
 		return 0.0f;
 	}
+
     Uint64 counter    = SDL_GetPerformanceCounter();
 	Uint64 accumulate = counter - start;
 
@@ -567,16 +568,16 @@ void init_glew(void)
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION,   &maj);
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION,   &min);
 	SDL_Log("Using OpenGL %d.%d", maj, min);
-	
-	if (!GLEW_VERSION_3_0){
-		SDL_Log("At least OpenGL 3.0 with GLSL 1.30 required.");
+
+	if (!GLEW_VERSION_2_0){
+		SDL_Log("At least OpenGL 2.0 with GLSL 1.10 required.");
 		Running = 0;
 	}
 }
 
 const char * read_file(const char *filename)
 {
-	long length = 0;
+	long length;
 	char *result = NULL;
 	FILE *file = fopen(filename, "r");
 	if(file) {
@@ -595,17 +596,17 @@ const char * read_file(const char *filename)
 		if(result) {
 			size_t actual_length = fread(result, sizeof(char), length , file);
 			result[actual_length++] = '\0';
-		} 
+		}
 		fclose(file);
 		return result;
 	}
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR,"Couldn't read %s", filename);
+
 	return NULL;
 }
 
 int write_STFS(void)
 {
-
 	FILE *fp;
 	fp = fopen( ""NEW_FILE , "w" );
 	fputs(default_fragment_shader_1, fp);
@@ -615,52 +616,49 @@ int write_STFS(void)
 	switch_counter=0;
 	shader_switch();
 	return(0);
-
 }
 
 GLuint compile_STFS(void)
 {
+    if (hash_check()){
+        SDL_Log("hash changed");
+        GLuint vtx;
+        vtx = default_vertex();
+        if (vtx==0)
+            return 0;
 
-if (hash_check()){
-// 	SDL_Log("hash changed");
-	GLuint vtx;
-	vtx = default_vertex();
-	if (vtx==0)
-		return 0;
-	
-	GLuint frag;
-	const char *sources[4];
-	sources[0] = common_shader_header;
-	sources[1] = fragment_shader_header;
-	sources[2] = read_file(""NEW_FILE);
-	sources[3] = fragment_shader_footer;
-	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
+        GLuint frag;
+        const char *sources[4];
+        sources[0] = common_shader_header;
+        sources[1] = fragment_shader_header;
+        sources[2] = read_file(""NEW_FILE);
+        sources[3] = fragment_shader_footer;
+        frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
 
-    shading_program_id[4] = glCreateProgram();
-	
-	glAttachShader(shading_program_id[4], vtx);
-	glAttachShader(shading_program_id[4], frag);
-	
-	glLinkProgram(shading_program_id[4]);
-	
-	GLuint status;
-	status=program_check(shading_program_id[4]);
-	if (status==GL_FALSE){
-		return 0;
-	}else{
-		glUseProgram(shading_program_id[4]);
-		SDL_Log("own_shading_program: %d", shading_program_id[4]);
-		query_vars(4);
-		query_shadertoy_old_vars(4);
-		glEnableVertexAttribArray	(attrib_position);
-		glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-		
-		glViewport (0, 0, ww, wh);
-		glUniform3f(uniform_res, ww, wh, 0.0f);
-		return 1;
-	}
-	
-}
+        shading_program_id[4] = glCreateProgram();
+
+        glAttachShader(shading_program_id[4], vtx);
+        glAttachShader(shading_program_id[4], frag);
+
+        glLinkProgram(shading_program_id[4]);
+
+        GLuint status;
+        status=program_check(shading_program_id[4]);
+        if (status==GL_FALSE){
+            return 0;
+        }else{
+            glUseProgram(shading_program_id[4]);
+            SDL_Log("own_shading_program: %d", shading_program_id[4]);
+            query_vars(4);
+            query_shadertoy_old_vars(4);
+            glEnableVertexAttribArray	(attrib_position);
+            glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+
+            glViewport (0, 0, ww, wh);
+            glUniform3f(uniform_res, ww, wh, 0.0f);
+            return 1;
+        }
+    }
 
 return 0;
 
@@ -698,8 +696,7 @@ int hash_check(void)
 void shader_switch(void)
 {
 	switch_counter++;
-	if (switch_counter>(2+argument_provided))
-		switch_counter=0;
+	if (switch_counter>(2+argument_provided)) switch_counter = 0;
 	SDL_Log("switch_counter: %d", switch_counter);
 	glUseProgram(shading_program_id[switch_counter]);
 	query_vars(switch_counter);
@@ -707,7 +704,7 @@ void shader_switch(void)
 	glEnableVertexAttribArray	(attrib_position);
 	glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
     glUniform3f(uniform_res, (float)ww, (float)wh, 0.0f);
-    glViewport (0, 0, ww, wh);
+	glViewport (0, 0, ww, wh);
 }
 
 //END 	MISC

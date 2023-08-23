@@ -34,15 +34,15 @@
 int ww=500;
 int wh=281;
 
-char   Running 		= 1;
-GLuint switch_counter	= 0;	// switches shading programs
+char   Running 		= 1;	// controls main loops
+GLuint switch_counter	= 0;	// tracks current used shading program
 GLuint argument_provided= 0;
 
 GLfloat vertices[] = {
-	 -1.0f,   -1.0f,
-	  1.0f,   -1.0f,
-	 -1.0f,    1.0f,
-	  1.0f,    1.0f,
+	-1.0f,   -1.0f,
+	 1.0f,   -1.0f,
+	-1.0f,    1.0f,
+	 1.0f,    1.0f,
 };
 
 //3 from header, one optionally loaded
@@ -96,6 +96,7 @@ const char  *read_file		(const char *);
 int main(int argc, const char *argv[])
 {
 	//BEGIN INIT
+
 	if (argc==2){
 		argument_provided=1;
 		SDL_Log("%s",argv[1]);
@@ -103,7 +104,9 @@ int main(int argc, const char *argv[])
 	} else {
 		SDL_Log("No argument provided.");
 	}
+
 	//BEGIN INIT SDL2
+
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Window *Window = SDL_CreateWindow("3 - load Shadertoy FS",
 		SDL_WINDOWPOS_CENTERED,
@@ -111,18 +114,20 @@ int main(int argc, const char *argv[])
 		ww, wh,
 		SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL |SDL_WINDOW_RESIZABLE);
 
-		//BEGIN ICON
-		SDL_Surface *icon;
-		icon=IMG_Load("./assets/gfx/icon.png");
-		SDL_SetWindowIcon(Window, icon);
-		SDL_FreeSurface(icon);
-		//END 	ICON
+	//BEGIN ICON
+
+	SDL_Surface *icon;
+	icon=IMG_Load("../assets/gfx/icon.png");
+	SDL_SetWindowIcon(Window, icon);
+	SDL_FreeSurface(icon);
+
+	//END 	ICON
 
 	SDL_GLContext glContext = SDL_GL_CreateContext(Window);
+
 	//END 	INIT SDL2
 
 	init_glew();
-
 
 	//BEGIN SHADER INIT
 
@@ -154,7 +159,6 @@ int main(int argc, const char *argv[])
 				switch_counter=4;
 				break;
 			default:
-				//some statements to execute when default;
 				break;
 		}
 	}
@@ -162,6 +166,7 @@ int main(int argc, const char *argv[])
 	glEnableVertexAttribArray	(attrib_position);
 	glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
 	glUniform3f			(uniform_res, ww, wh, 0.0f);
+
 	//END 	SHADER INIT
 
 	SDL_Point mouse;
@@ -175,14 +180,15 @@ int main(int argc, const char *argv[])
 	while (Running){
 
 		//BEGIN EVENTS
+
 		while ( SDL_PollEvent(&event) ){
 			SDL_GetMouseState(&mouse.x, &mouse.y);
 			if (event.type == SDL_QUIT)
 				Running = 0;
 			if(event.type == SDL_WINDOWEVENT){
 				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED){
-					ww=event.window.data1;
-					wh=event.window.data2;
+                    ww = event.window.data1;
+                    wh = event.window.data2;
 					glViewport (0, 0, ww, wh);
 					glUniform3f(uniform_res, (float)ww, (float)wh, 0.0f);
 				}
@@ -211,36 +217,40 @@ int main(int argc, const char *argv[])
 					case SDLK_ESCAPE:
 						Running = 0;
 						break;
-
 					case SDLK_r:
 					case SDLK_BACKSPACE:
 						break;
-
 					case SDLK_p:
 					case SDLK_SPACE:
 						break;
-
 					default:
 						break;
 				}
 			}
 
 		}
+
 		//END 	EVENTS
 
 		//BEGIN UPDATE
+
 		if (MBL_CLICK==1)
 			glUniform4f(uniform_mouse, mouse.x, mouse.y, 0, 0 );
 
 		glUniform1f(uniform_gtime, fTime());
 
 		//END UPDATE
+
 		//BEGIN RENDERING
+
 		glClear(GL_COLOR_BUFFER_BIT);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		SDL_GL_SwapWindow(Window);
+
 		//END 	RENDERING
+
 	}
+
 	//END 	MAINLOOP
 
 	//BEGIN EXIT
@@ -338,6 +348,7 @@ GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 	glCompileShader(shader);
 
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+
 	if (!success) {
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
 		if (len > 1) {
@@ -349,6 +360,8 @@ GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 		}
 		SDL_Log("Error compiling shader.\n");
 	}
+	SDL_Log("shader: %u",shader);
+
 	return shader;
 }
 
@@ -357,8 +370,7 @@ GLuint default_shaders(GLuint choice)
 	SDL_Log("choice def: %d", choice);
 	GLuint vtx;
 	vtx = default_vertex();
-	if (vtx==0)
-		return 0;
+	if (vtx==0) return 0;
 
 	GLuint frag;
 	const char *sources[4];
@@ -376,7 +388,6 @@ GLuint default_shaders(GLuint choice)
 			sources[2] = default_fragment_shader;
 			break;
 		default:
-			//some statements to execute when default;
 			break;
 	}
 
@@ -388,14 +399,14 @@ GLuint default_shaders(GLuint choice)
 	glAttachShader(shading_program_id[choice], frag);
 	glLinkProgram(shading_program_id[choice]);
 
+	//Error Checking
 	GLuint status;
 	status=program_check(shading_program_id[choice]);
-	if (status==GL_FALSE)
-		return 0;
+
+	if (status==GL_FALSE) return 0;
 
 	return shading_program_id[choice];
 }
-
 
 GLuint default_vertex(void)
 {
@@ -404,6 +415,7 @@ GLuint default_vertex(void)
 	sources[0] = common_shader_header;
 	sources[1] = vertex_shader_body;
 	vtx = compile_shader(GL_VERTEX_SHADER, 2, sources);
+
 	return vtx;
 }
 
@@ -457,7 +469,6 @@ void query_vars(GLuint choice)
 	GLsizei length;
 
 	glGetProgramiv(shading_program_id[choice], GL_ACTIVE_ATTRIBUTES, &count);
-
 
 	for (i = 0; i < count; i++){
 		glGetActiveAttrib(shading_program_id[choice], (GLuint)i, bufSize, &length, &size, &type, name);
@@ -562,8 +573,7 @@ const char * read_file(const char *filename)
 void shader_switch(void)
 {
 	switch_counter++;
-	if (switch_counter>(2+argument_provided))
-		switch_counter=0;
+	if (switch_counter>(2+argument_provided)) switch_counter = 0;
 	SDL_Log("switch_counter: %d", switch_counter);
 	glUseProgram(shading_program_id[switch_counter]);
 	query_vars(switch_counter);
