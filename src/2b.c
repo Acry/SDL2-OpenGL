@@ -7,16 +7,16 @@
 
 int ww=800;
 int wh=600;
+
 char Running = 1;
 GLuint shading_program_id;
 
-GLuint default_shader		(void);
-
+GLuint default_shader	(void);
 float  fTime			(void);
 void   init_glew		(void);
 
-GLuint compile_shader		(GLenum type, GLsizei , const char **);
-GLuint program_check		(GLuint);
+GLuint compile_shader		(GLenum type, GLsizei , const char **sources);
+GLuint program_check		(GLuint program);
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 	SDL_Init(SDL_INIT_VIDEO);
 
-	SDL_Window *Window = SDL_CreateWindow("2b - Default Shader",
+	SDL_Window *Window = SDL_CreateWindow("2b - Default Shader from array",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		ww, wh,
@@ -80,35 +80,6 @@ int main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
-const char * read_file(const char *filename)
-{
-	long length = 0;
-	char *result = NULL;
-	FILE *file = fopen(filename, "r");
-	if(file) {
-		int status = fseek(file, 0, SEEK_END);
-		if(status != 0) {
-			fclose(file);
-			return NULL;
-		}
-		length = ftell(file);
-		status = fseek(file, 0, SEEK_SET);
-		if(status != 0) {
-			fclose(file);
-			return NULL;
-		}
-		result = malloc((length+1) * sizeof(char));
-		if(result) {
-			size_t actual_length = fread(result, sizeof(char), length , file);
-			result[actual_length++] = '\0';
-		}
-		fclose(file);
-		return result;
-	}
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR,"Couldn't read %s", filename);
-	return NULL;
-}
-
 float fTime(void)
 {
 
@@ -121,8 +92,7 @@ float fTime(void)
 		return 0.0f;
 	}
 
-	Uint64 counter    	 = 0;
-	counter    		 = SDL_GetPerformanceCounter();
+    Uint64 counter    	 = SDL_GetPerformanceCounter();
 	Uint64 accumulate 	 = counter - start;
 	return   (float)accumulate / (float)frequency;
 
@@ -155,6 +125,7 @@ void init_glew(void)
 		Running = 0;
 	}
 }
+
 //BEGIN GPU PROGRAM CREATION
 GLuint compile_shader(GLenum type, GLsizei sources_count, const char **sources)
 {
@@ -211,20 +182,19 @@ GLuint program_check(GLuint program)
 }
 
 //END 	GPU PROGRAM CREATION
+
 GLuint default_shader(void)
 {
 	GLuint vtx;
 	const char *sources;
 	sources = vertex_shader;
 	vtx = compile_shader(GL_VERTEX_SHADER, 1, &sources);
-	if (vtx==0)
-		return 0;
+	if (vtx==0)	return 0;
 
 	GLuint frag;
 	sources = fragment_shader;
 	frag = compile_shader(GL_FRAGMENT_SHADER, 1, &sources);
-	if (frag==0)
-		return 0;
+	if (frag==0) return 0;
 
     shading_program_id = glCreateProgram();
 	glAttachShader(shading_program_id, vtx);
@@ -233,8 +203,7 @@ GLuint default_shader(void)
 
 	GLuint status;
 	status=program_check(shading_program_id);
-	if (status==GL_FALSE)
-		return 0;
+	if (status==GL_FALSE) return 0;
 
 	return shading_program_id;
 }
