@@ -27,8 +27,11 @@ And a bit GLSL for C-Coders.
 ![Screenshot](shots/shot_1c.c.jpg)
 
 - `1d` - SGI Teapot Demo ported to SDL2 (TBD)
+/home/carsten/NAS_PF/Carsten/IT/tempwork/c/CG/3D/OpenGL/extern/ext/Sammelsurium/openGL/C/glutbase.c
+<http://ftp.funet.fi/pub/sci/graphics/packages/objects/teasetorig.gz>
 
 - `1e` - SGI Atlantis Demo ported to SDL2 (TBD)
+/home/carsten/tempwork/c/CG/3D-Wiki/OpenGL-Helpers/GLUT/Demos/Atlantis
 
 ## Modern OpenGL
 

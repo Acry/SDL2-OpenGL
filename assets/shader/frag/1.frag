@@ -1,6 +1,8 @@
 #version 110
-#define GL_DARK_ORANGE  0.839, 0.423, 0.274,1
-//fixed Color
+#define GL_DARK_ORANGE  0.839, 0.423, 0.274, 1
+// fixed Color
+
+// Unused Shader, just for review
 void main() 
 {
 	gl_FragColor = vec4(GL_DARK_ORANGE);

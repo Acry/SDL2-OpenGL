@@ -7,7 +7,11 @@
  * and animate it.
  */
 
-/* We need a timing function to privide time passed in float
+/* Changes:
+ * All I did was initializing glew
+ */
+
+/* We need a timing function to provide time passed in float
  *
  *
  * As of GLSL 130+, in and out are used instead of attribute and varying.
@@ -15,9 +19,10 @@
  * I like this overview:
  * https://github.com/mattdesl/lwjgl-basics/wiki/glsl-versions
  */
+
+// careful: needs to be included before SDL
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_image.h> // Just for the icon - easy to strip out
 
 #define FRAG	"../assets/shader/frag/5.frag"
@@ -50,8 +55,6 @@ void   init_glew		(void);
 
 GLuint compile_shader		(GLenum type, GLsizei , const char **);
 GLuint program_check		(GLuint);
-
-
 
 int main(int argc, char *argv[])
 {
@@ -106,7 +109,7 @@ int main(int argc, char *argv[])
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		glRectf(-1.0, -1.0, 1.0, 1.0);
+		glRectf(-1.0f, -1.0f, 1.0f, 1.0f);
 		glUniform1f(uniform_gtime, fTime());
 		SDL_GL_SwapWindow(Window);
 	}
@@ -147,7 +150,6 @@ const char * read_file(const char *filename)
 
 float fTime(void)
 {
-
 	static Uint64 start 	 = 0;
 	static Uint64 frequency  = 0;
 
@@ -161,7 +163,6 @@ float fTime(void)
 	counter    		 = SDL_GetPerformanceCounter();
 	Uint64 accumulate 	 = counter - start;
 	return   (float)accumulate / (float)frequency;
-
 }
 
 void init_glew(void)
@@ -219,16 +220,13 @@ GLuint custom_shaders(const char *vsPath, const char *fsPath)
 
 GLuint GetShader(GLenum eShaderType, const char *filename)
 {
-
 	const char *shaderSource=read_file(filename);
 	GLuint shader = compile_shader(eShaderType, 1, &shaderSource);
 	return shader;
-
 }
 
 GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 {
-
 	GLuint  shader;
 	GLint   success, len;
 	GLsizei i, srclens[nsources];

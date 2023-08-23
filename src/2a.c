@@ -1,3 +1,10 @@
+/*
+ * 2a.c - Animated Gradient
+ * This program does NOT work as expected.
+ * It is here for reference.
+ * I have no clue why it fails.
+ */
+
 /* Render a colorful gradient like in:
  *
  * https://github.com/Acry/SDL2-Surfaces/blob/master/src/7.c
@@ -7,16 +14,19 @@
  * and animate it.
  */
 
-/* We need a timing function to privide time passed in float.
+/* We need a timing function to provide time passed in float.
  * A uniform in the fragment shader:
  * uniform 	float fTime;
  * And use it int the equation to define the fragment color.
- *
+ */
+
+/*
  * BUT - All I could get was this white flickering.
  * This was really bugging me, if you can explain to me why this doesn't
  * work, please contact me. IMO it should, but I needed to use glew to get it
  * running like expected.
  * look 2a1 for the expected output.
+ * - fixed shader version mess, no impact
  */
 
 #include <SDL2/SDL.h>
@@ -67,7 +77,7 @@ int main(int argc, char *argv[])
 
 	SDL_Init(SDL_INIT_VIDEO);
 
-	SDL_Window *Window = SDL_CreateWindow("2a - Color Gradient",
+	SDL_Window *Window = SDL_CreateWindow("2a - Animated Gradient",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		ww, wh,
@@ -84,7 +94,6 @@ int main(int argc, char *argv[])
 
 	shading_program = custom_shaders(VERT, FRAG);
 	glReleaseShaderCompiler();
-
 
 	if (shading_program == 0){
 		Running = 0;
@@ -114,7 +123,7 @@ int main(int argc, char *argv[])
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		glRectf(-1.0, -1.0, 1.0, 1.0);
+		glRectf(-1.0f, -1.0f, 1.0f, 1.0f);
 		glUniform1f(uniform_gtime, fTime());
 
 		SDL_GL_SwapWindow(Window);
@@ -156,7 +165,6 @@ const char * read_file(const char *filename)
 
 float fTime(void)
 {
-
 	static Uint64 start 	 = 0;
 	static Uint64 frequency  = 0;
 
@@ -170,7 +178,6 @@ float fTime(void)
 	counter    		 = SDL_GetPerformanceCounter();
 	Uint64 accumulate 	 = counter - start;
 	return   (float)accumulate / (float)frequency;
-
 }
 
 
@@ -202,16 +209,13 @@ GLuint custom_shaders(const char *vsPath, const char *fsPath)
 
 GLuint GetShader(GLenum eShaderType, const char *filename)
 {
-
 	const char *shaderSource=read_file(filename);
 	GLuint shader = compile_shader(eShaderType, 1, &shaderSource);
 	return shader;
-
 }
 
 GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 {
-
 	GLuint  shader;
 	GLint   success, len;
 	GLsizei i, srclens[nsources];

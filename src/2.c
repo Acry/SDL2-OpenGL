@@ -69,7 +69,6 @@ GLuint shading_program;
 // or use -Wno-implicit-function-declaration to avoid warnings
 extern void glGetProgramInfoLog(GLuint , GLsizei ,  GLsizei *,  GLchar *);
 
-
 // loads a shader from file and returns the compiled shader
 GLuint GetShader		(GLenum 	, const char *);
 
@@ -89,7 +88,7 @@ int main(int argc, char *argv[])
 
 	SDL_Init(SDL_INIT_VIDEO);
 
-	SDL_Window *Window = SDL_CreateWindow("0 - Color Gradient",
+	SDL_Window *Window = SDL_CreateWindow("2.c - Color Gradient",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		ww, wh,

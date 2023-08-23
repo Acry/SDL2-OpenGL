@@ -1,8 +1,8 @@
 #version 110
 
-in 		vec2 fragCoord;
-varying out 	vec4 fragColor;
+varying 		vec2 fragCoord;
 
+// Normalize NDC to range [0,1]
 float normalize_C(float x, float x_min, float x_max, float r_min, float r_max )
 {
 	//see https://github.com/Acry/C-math-normalization/blob/master/main.c
@@ -19,8 +19,8 @@ float normalize_C(float x, float x_min, float x_max, float r_min, float r_max )
 
 void main()
 {
-
 	float x = normalize_C(fragCoord.x, -1.0, 1.0, 0.0, 1.0);
 	float y = normalize_C(fragCoord.y, -1.0, 1.0, 0.0, 1.0);
-	fragColor = vec4(x,y,1.0-x,1.0);
+
+	gl_FragColor = vec4(x,y,1.0-x,1.0);
 }
