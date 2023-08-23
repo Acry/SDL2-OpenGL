@@ -1,5 +1,6 @@
 //BEGIN HEAD
 //BEGIN DESCRIPTION
+
 /*
  * Add inotify and epoll to detect changes in file and recompile shader.
  *
@@ -19,12 +20,12 @@
  * 
  * So basically one can edit on the fly now or copy and paste shadercode
  * from shadertoy. With save-as in editor work is permanent.
- * 
  */
 
 //END 	DESCRIPTION
 
 //BEGIN INCLUDES
+
 // gave up on cross-platform for now
 #include <GL/glew.h>
 
@@ -44,11 +45,14 @@
 //END 	INCLUDES
 
 //BEGIN DEFINES
+
 #define NEW_FILE "STFS_new.glsl"
 #define EDITOR	"/usr/bin/code"
+
 //END 	DEFINES
 
 //BEGIN GLOBALS
+
 int ww=500;
 int wh=281;
 
@@ -57,8 +61,10 @@ GLuint switch_counter	= 0;	// tracks current used shading program
 GLuint argument_provided= 0;
 
 int NEW_SHADER=0;
+
 //inotify and epoll
 int wd, fd, efd, cfg;
+
 struct epoll_event ev;
 
 const char editor_call[]={ ""EDITOR" "NEW_FILE };
@@ -78,7 +84,6 @@ GLint attrib_position;		// Vertex Shader Attribute
 //Used Uniforms so far
 GLint uniform_gtime;
 GLint uniform_itime;		// Don't need both of them
-
 GLint uniform_res;		// Resolution
 
 //Next one to do
@@ -278,7 +283,6 @@ int main(int argc, const char *argv[])
 						break;
 				}
 			}
-
 		}
 
 		//END 	EVENTS
@@ -306,7 +310,9 @@ int main(int argc, const char *argv[])
 		SDL_GL_SwapWindow(Window);
 
 		//END 	RENDERING
+
 	}
+
 	//END 	MAINLOOP
 
 	//BEGIN EXIT
@@ -325,6 +331,7 @@ int main(int argc, const char *argv[])
 	return EXIT_SUCCESS;
 
 	//END 	EXIT
+
 }
 
 //END	MAIN
@@ -350,8 +357,8 @@ GLuint custom_shaders(const char *vsPath, const char *fsPath)
 
 	GLuint status;
 	status=program_check(shading_program_id[3]);
-	if (status==GL_FALSE)
-		return 0;
+
+	if (status==GL_FALSE) return 0;
 
 	return shading_program_id[3];
 }
@@ -360,8 +367,7 @@ GLuint shadertoy_shader(const char *fsPath)
 {
 	GLuint vtx;
 	vtx = default_vertex();
-	if (vtx==0)
-		return 0;
+	if (vtx==0)	return 0;
 
 	GLuint frag;
 	const char *sources[4];
@@ -381,8 +387,7 @@ GLuint shadertoy_shader(const char *fsPath)
 	GLuint status;
 	status=program_check(shading_program_id[3]);
 
-	if (status==GL_FALSE)
-		return 0;
+	if (status==GL_FALSE) return 0;
 
 	return shading_program_id[3];
 }
@@ -477,12 +482,10 @@ GLuint default_vertex(void)
 	sources[1] = vertex_shader_body;
 	vtx = compile_shader(GL_VERTEX_SHADER, 2, sources);
 	return vtx;
-	
 }
 
 GLuint program_check(GLuint program)
 {
-
 	GLint status;
 	glValidateProgram(program);
 	glGetProgramiv(program, GL_LINK_STATUS, &status);
@@ -501,11 +504,11 @@ GLuint program_check(GLuint program)
 	}
 	return GL_TRUE;
 }
+
 //END 	GPU PROGRAM CREATION
 
 void query_shadertoy_old_vars(GLuint choice)
 {
-
 	sampler_channel[0] = glGetUniformLocation(shading_program_id[choice], "iChannel0");
 	sampler_channel[1] = glGetUniformLocation(shading_program_id[choice], "iChannel1");
 	sampler_channel[2] = glGetUniformLocation(shading_program_id[choice], "iChannel2");
@@ -519,7 +522,6 @@ void query_shadertoy_old_vars(GLuint choice)
 
 void query_vars(GLuint choice)
 {
-
 	GLint i;
 	GLint count;
 	
@@ -532,18 +534,15 @@ void query_vars(GLuint choice)
 
 	glGetProgramiv(shading_program_id[choice], GL_ACTIVE_ATTRIBUTES, &count);
 
-	
 	for (i = 0; i < count; i++){
 		glGetActiveAttrib(shading_program_id[choice], (GLuint)i, bufSize, &length, &size, &type, name);
 		if (!strcmp("iPosition",name)){
 			attrib_position = i;
 		}
-
 	}
-	
 
 	glGetProgramiv(shading_program_id[choice], GL_ACTIVE_UNIFORMS, &count);
-	
+
 	char global_time1[]="iTime";
 	char global_time2[]="iGlobalTime";
 	for (i = 0; i < count; i++){
@@ -555,7 +554,6 @@ void query_vars(GLuint choice)
 		}
 		if (!strcmp("iMouse",name))
 			uniform_mouse = i;
-
 	}
 }
 
@@ -652,7 +650,6 @@ int write_STFS(void)
 
 struct epoll_event reset_poll(int halt)
 {
-	
 	static struct epoll_event ev;
 	if (halt){
 		// release epoll
@@ -716,9 +713,6 @@ GLuint compile_STFS(void)
 		glUniform3f(uniform_res, ww, wh, 0.0f);
 		return 1;
 	}
-
-return 0;
-
 }
 
 void shader_switch(void)
