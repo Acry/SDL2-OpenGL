@@ -82,7 +82,6 @@ int main(int argc, char *argv[])
 
 float fTime(void)
 {
-
 	static Uint64 start 	 = 0;
 	static Uint64 frequency  = 0;
 
@@ -95,7 +94,6 @@ float fTime(void)
     Uint64 counter    	 = SDL_GetPerformanceCounter();
 	Uint64 accumulate 	 = counter - start;
 	return   (float)accumulate / (float)frequency;
-
 }
 
 void init_glew(void)
@@ -129,7 +127,6 @@ void init_glew(void)
 //BEGIN GPU PROGRAM CREATION
 GLuint compile_shader(GLenum type, GLsizei sources_count, const char **sources)
 {
-
 	GLuint  shader;
 	GLint   success, len;
 	GLsizei i, source_len[sources_count];
