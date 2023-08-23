@@ -49,7 +49,7 @@
 int ww=800;
 int wh=600;
 char Running = 1;
-GLuint shading_program;
+GLuint shading_program_id;
 
 // You can either declare new OpenGL functions as extern
 // or use -Wno-implicit-function-declaration to avoid warnings
@@ -92,21 +92,20 @@ int main(int argc, char *argv[])
 
 	SDL_GLContext glContext = SDL_GL_CreateContext(Window);
 
-	shading_program = custom_shaders(VERT, FRAG);
-	glReleaseShaderCompiler();
+    shading_program_id = custom_shaders(VERT, FRAG);
 
-	if (shading_program == 0){
+	if (shading_program_id == 0){
 		Running = 0;
 	} else
-		SDL_Log("Using program %d\n", shading_program);
+		SDL_Log("Using program %d\n", shading_program_id);
 
 	if (glGetError()!=0)
 		SDL_Log("glError: %#08x\n", glGetError());
 
-	glUseProgram(shading_program);
+	glUseProgram(shading_program_id);
 
 	static GLint uniform_gtime;
-	uniform_gtime = glGetUniformLocation(shading_program, "fTime");
+	uniform_gtime = glGetUniformLocation(shading_program_id, "fTime");
 
 	while (Running){
 		SDL_Event event;
@@ -190,20 +189,20 @@ GLuint custom_shaders(const char *vsPath, const char *fsPath)
 	vertexShader   = GetShader(GL_VERTEX_SHADER,   vsPath);
 	fragmentShader = GetShader(GL_FRAGMENT_SHADER, fsPath);
 
-	shading_program = glCreateProgram();
+    shading_program_id = glCreateProgram();
 
-	glAttachShader(shading_program, vertexShader);
-	glAttachShader(shading_program, fragmentShader);
+	glAttachShader(shading_program_id, vertexShader);
+	glAttachShader(shading_program_id, fragmentShader);
 
-	glLinkProgram(shading_program);
+	glLinkProgram(shading_program_id);
 
 
 	//Error Checking
 	GLuint status;
-	status=program_check(shading_program);
+	status=program_check(shading_program_id);
 	if (status==GL_FALSE)
 		return 0;
-	return shading_program;
+	return shading_program_id;
 
 }
 

@@ -55,7 +55,7 @@ GLfloat vertices[] = {
 };
 
 //3 from header, one optionally loaded
-GLuint shading_program[5];
+GLuint shading_program_id[5];
 GLint attrib_position;		// Vertex Shader Attribute
 
 //Used Uniforms so far
@@ -149,10 +149,10 @@ int main(int argc, const char *argv[])
 
 	SDL_Log("Trying to build default shaders");
 	for (int i=0; i<3; i++){
-		shading_program[i] = default_shaders(i);
+        shading_program_id[i] = default_shaders(i);
 		SDL_Log("i: %d", i);
 	}
-	if (shading_program[0] == 0){
+	if (shading_program_id[0] == 0){
 		Running = 0;
 		if (glGetError()!=0)
 			SDL_Log("glError: %#08x\n", glGetError());
@@ -160,16 +160,16 @@ int main(int argc, const char *argv[])
 		switch(argument_provided)
 		{
 			case 0:
-				glUseProgram(shading_program[0]);
+				glUseProgram(shading_program_id[0]);
 				query_vars(0);
 				query_shadertoy_old_vars(0);
 				SDL_Log("Using default shader");
 				break;
 			case 1:
 				SDL_Log("Trying to build shadertoy shader");
-				shading_program[3] = shadertoy_shader(argv[1]);
-				glUseProgram(shading_program[3]);
-				SDL_Log("Using shading program %d\n", shading_program[3]);
+                shading_program_id[3] = shadertoy_shader(argv[1]);
+				glUseProgram(shading_program_id[3]);
+				SDL_Log("Using shading program %d\n", shading_program_id[3]);
 				query_vars(3);
 				query_shadertoy_old_vars(3);
 				switch_counter=4;
@@ -269,8 +269,8 @@ int main(int argc, const char *argv[])
 
 	//BEGIN EXIT
 	for (int i=0; i<4; i++){
-		if (glIsProgram(shading_program[i]))
-			glDeleteProgram(shading_program[i]);
+		if (glIsProgram(shading_program_id[i]))
+			glDeleteProgram(shading_program_id[i]);
 	}
 	SDL_GL_DeleteContext(glContext);
 	SDL_Quit();
@@ -291,18 +291,18 @@ GLuint custom_shaders(const char *vsPath, const char *fsPath)
 	vertexShader   = GetShader(GL_VERTEX_SHADER,   vsPath);
 	fragmentShader = GetShader(GL_FRAGMENT_SHADER, fsPath);
 
-	shading_program[3] = glCreateProgram();
+    shading_program_id[3] = glCreateProgram();
 
-	glAttachShader(shading_program[3], vertexShader);
-	glAttachShader(shading_program[3], fragmentShader);
+	glAttachShader(shading_program_id[3], vertexShader);
+	glAttachShader(shading_program_id[3], fragmentShader);
 
-	glLinkProgram(shading_program[3]);
+	glLinkProgram(shading_program_id[3]);
 
 	GLuint status;
-	status=program_check(shading_program[3]);
+	status=program_check(shading_program_id[3]);
 	if (status==GL_FALSE)
 		return 0;
-	return shading_program[3];
+	return shading_program_id[3];
 
 }
 
@@ -320,19 +320,19 @@ GLuint shadertoy_shader(const char *fsPath)
 	sources[2] = read_file(fsPath);
 	sources[3] = fragment_shader_footer;
 	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
+
+    shading_program_id[3] = glCreateProgram();
 	
-	shading_program[3] = glCreateProgram();
+	glAttachShader(shading_program_id[3], vtx);
+	glAttachShader(shading_program_id[3], frag);
 	
-	glAttachShader(shading_program[3], vtx);
-	glAttachShader(shading_program[3], frag);
-	
-	glLinkProgram(shading_program[3]);
+	glLinkProgram(shading_program_id[3]);
 	
 	GLuint status;
-	status=program_check(shading_program[3]);
+	status=program_check(shading_program_id[3]);
 	if (status==GL_FALSE)
 		return 0;
-	return shading_program[3];
+	return shading_program_id[3];
 	
 }
 
@@ -405,18 +405,18 @@ GLuint default_shaders(GLuint choice)
 	sources[3] = fragment_shader_footer;
 	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
 
-	shading_program[choice] = glCreateProgram();
-	glAttachShader(shading_program[choice], vtx);
-	glAttachShader(shading_program[choice], frag);
-	glLinkProgram(shading_program[choice]);
+    shading_program_id[choice] = glCreateProgram();
+	glAttachShader(shading_program_id[choice], vtx);
+	glAttachShader(shading_program_id[choice], frag);
+	glLinkProgram(shading_program_id[choice]);
 
 
 	GLuint status;
-	status=program_check(shading_program[choice]);
+	status=program_check(shading_program_id[choice]);
 	if (status==GL_FALSE)
 		return 0;
 
-	return shading_program[choice];
+	return shading_program_id[choice];
 }
 
 
@@ -457,15 +457,15 @@ GLuint program_check(GLuint program)
 void query_shadertoy_old_vars(GLuint choice)
 {
 
-	sampler_channel[0] = glGetUniformLocation(shading_program[choice], "iChannel0");
-	sampler_channel[1] = glGetUniformLocation(shading_program[choice], "iChannel1");
-	sampler_channel[2] = glGetUniformLocation(shading_program[choice], "iChannel2");
-	sampler_channel[3] = glGetUniformLocation(shading_program[choice], "iChannel3");
-	uniform_cres  = glGetUniformLocation(shading_program[choice], "iChannelResolution");
-	uniform_ctime = glGetUniformLocation(shading_program[choice], "iChannelTime");
-	uniform_itime = glGetUniformLocation(shading_program[choice], "iTime");
-	uniform_res   = glGetUniformLocation(shading_program[choice], "iResolution");
-	uniform_srate = glGetUniformLocation(shading_program[choice], "iSampleRate");
+	sampler_channel[0] = glGetUniformLocation(shading_program_id[choice], "iChannel0");
+	sampler_channel[1] = glGetUniformLocation(shading_program_id[choice], "iChannel1");
+	sampler_channel[2] = glGetUniformLocation(shading_program_id[choice], "iChannel2");
+	sampler_channel[3] = glGetUniformLocation(shading_program_id[choice], "iChannel3");
+	uniform_cres  = glGetUniformLocation(shading_program_id[choice], "iChannelResolution");
+	uniform_ctime = glGetUniformLocation(shading_program_id[choice], "iChannelTime");
+	uniform_itime = glGetUniformLocation(shading_program_id[choice], "iTime");
+	uniform_res   = glGetUniformLocation(shading_program_id[choice], "iResolution");
+	uniform_srate = glGetUniformLocation(shading_program_id[choice], "iSampleRate");
 }
 
 void query_vars(GLuint choice)
@@ -481,11 +481,11 @@ void query_vars(GLuint choice)
 	GLchar name[bufSize];
 	GLsizei length;
 
-	glGetProgramiv(shading_program[choice], GL_ACTIVE_ATTRIBUTES, &count);
+	glGetProgramiv(shading_program_id[choice], GL_ACTIVE_ATTRIBUTES, &count);
 
 	
 	for (i = 0; i < count; i++){
-		glGetActiveAttrib(shading_program[choice], (GLuint)i, bufSize, &length, &size, &type, name);
+		glGetActiveAttrib(shading_program_id[choice], (GLuint)i, bufSize, &length, &size, &type, name);
 		if (!strcmp("iPosition",name)){
 			attrib_position = i;
 		}
@@ -493,12 +493,12 @@ void query_vars(GLuint choice)
 	}
 	
 
-	glGetProgramiv(shading_program[choice], GL_ACTIVE_UNIFORMS, &count);
+	glGetProgramiv(shading_program_id[choice], GL_ACTIVE_UNIFORMS, &count);
 	
 	char global_time1[]="iTime";
 	char global_time2[]="iGlobalTime";
 	for (i = 0; i < count; i++){
-		glGetActiveUniform(shading_program[choice], (GLuint)i, bufSize, &length, &size, &type, name);
+		glGetActiveUniform(shading_program_id[choice], (GLuint)i, bufSize, &length, &size, &type, name);
 		
 		SDL_Log("Uniform #%d Type: %u Name: %s\n", i, type, name);
 		if (!strcmp(global_time1,name)||!strcmp(global_time2,name)){
@@ -617,21 +617,21 @@ if (hash_check()){
 	sources[2] = read_file(""NEW_FILE);
 	sources[3] = fragment_shader_footer;
 	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
+
+    shading_program_id[4] = glCreateProgram();
 	
-	shading_program[4] = glCreateProgram();
+	glAttachShader(shading_program_id[4], vtx);
+	glAttachShader(shading_program_id[4], frag);
 	
-	glAttachShader(shading_program[4], vtx);
-	glAttachShader(shading_program[4], frag);
-	
-	glLinkProgram(shading_program[4]);
+	glLinkProgram(shading_program_id[4]);
 	
 	GLuint status;
-	status=program_check(shading_program[4]);
+	status=program_check(shading_program_id[4]);
 	if (status==GL_FALSE){
 		return 0;
 	}else{
-		glUseProgram(shading_program[4]);
-		SDL_Log("own_shading_program: %d", shading_program[4]);
+		glUseProgram(shading_program_id[4]);
+		SDL_Log("own_shading_program: %d", shading_program_id[4]);
 		query_vars(4);
 		query_shadertoy_old_vars(4);
 		glEnableVertexAttribArray	(attrib_position);
@@ -683,7 +683,7 @@ void shader_switch(void)
 	if (switch_counter>(2+argument_provided))
 		switch_counter=0;
 	SDL_Log("switch_counter: %d", switch_counter);
-	glUseProgram(shading_program[switch_counter]);
+	glUseProgram(shading_program_id[switch_counter]);
 	query_vars(switch_counter);
 	query_shadertoy_old_vars(switch_counter);
 	glEnableVertexAttribArray	(attrib_position);

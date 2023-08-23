@@ -31,7 +31,7 @@ GLuint default_shaders		(GLuint);
 GLuint default_vertex		(void);
 void 	shader_switch		(void);
 
-GLuint shading_program[4];
+GLuint shading_program_id[4];
 
 // loads a shader from file and returns the compiled shader
 GLuint GetShader		(GLenum 	, const char *);
@@ -69,21 +69,20 @@ int main(int argc, char *argv[])
 	init_glew();
 	SDL_Log("Trying to build default shaders");
 	for (int i=0; i<3; i++){
-		shading_program[i] = default_shaders(i);
+        shading_program_id[i] = default_shaders(i);
 		SDL_Log("i: %d", i);
 	}
-	glReleaseShaderCompiler();
-	if (shading_program[0] == 0){
+	if (shading_program_id[0] == 0){
 		Running = 0;
 		if (glGetError()!=0)
 			SDL_Log("glError: %#08x\n", glGetError());
 	}
-	glUseProgram(shading_program[2]);
+	glUseProgram(shading_program_id[2]);
 	glEnableVertexAttribArray	(attrib_position);
 	glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-	uniform_res   = glGetUniformLocation(shading_program[2], "iResolution");
-	uniform_gtime = glGetUniformLocation(shading_program[2], "iTime");
-	uniform_mouse = glGetUniformLocation(shading_program[2], "iMouse");
+	uniform_res   = glGetUniformLocation(shading_program_id[2], "iResolution");
+	uniform_gtime = glGetUniformLocation(shading_program_id[2], "iTime");
+	uniform_mouse = glGetUniformLocation(shading_program_id[2], "iMouse");
 	glUniform3f(uniform_res, (float)ww, (float)wh, 0.0f);
 	SDL_Point mouse;
 	char MBL_CLICK=0;
@@ -129,8 +128,8 @@ int main(int argc, char *argv[])
 		SDL_GL_SwapWindow(Window);
 	} 
 	for (int i=0; i<3; i++){
-		if (glIsProgram(shading_program[i]))
-			glDeleteProgram(shading_program[i]);
+		if (glIsProgram(shading_program_id[i]))
+			glDeleteProgram(shading_program_id[i]);
 	}
 	SDL_GL_DeleteContext(glContext);
 	SDL_Quit();
@@ -309,19 +308,19 @@ GLuint default_shaders(GLuint choice)
 	
 	sources[3] = fragment_shader_footer;
 	frag = compile_shader(GL_FRAGMENT_SHADER, 4, sources);
-	
-	shading_program[choice] = glCreateProgram();
-	glAttachShader(shading_program[choice], vtx);
-	glAttachShader(shading_program[choice], frag);
-	glLinkProgram(shading_program[choice]);
+
+    shading_program_id[choice] = glCreateProgram();
+	glAttachShader(shading_program_id[choice], vtx);
+	glAttachShader(shading_program_id[choice], frag);
+	glLinkProgram(shading_program_id[choice]);
 	
 	//Error Checking
 	GLuint status;
-	status=program_check(shading_program[choice]);
+	status=program_check(shading_program_id[choice]);
 	if (status==GL_FALSE)
 		return 0;
 	
-	return shading_program[choice];
+	return shading_program_id[choice];
 }
 
 GLuint default_vertex(void)
@@ -342,10 +341,10 @@ void shader_switch(void)
 	if (switch_counter>(2))
 		switch_counter=0;
 	SDL_Log("switch_counter: %d", switch_counter);
-	glUseProgram(shading_program[switch_counter]);
-	uniform_gtime = glGetUniformLocation(shading_program[switch_counter], "iTime");
-	uniform_res   = glGetUniformLocation(shading_program[switch_counter], "iResolution");
-	uniform_mouse = glGetUniformLocation(shading_program[switch_counter], "iMouse");
+	glUseProgram(shading_program_id[switch_counter]);
+	uniform_gtime = glGetUniformLocation(shading_program_id[switch_counter], "iTime");
+	uniform_res   = glGetUniformLocation(shading_program_id[switch_counter], "iResolution");
+	uniform_mouse = glGetUniformLocation(shading_program_id[switch_counter], "iMouse");
 	glEnableVertexAttribArray	(attrib_position);
 	glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
 	glUniform3f(uniform_res, ww, wh, 0.0f);

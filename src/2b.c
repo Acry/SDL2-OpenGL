@@ -1,33 +1,22 @@
-/* Using a default Shader-Program read from Array in Header */
+/* Using a shader from array in header */
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_image.h> // Just for the icon - easy to strip out
 #include "default_shader.h"
 
 int ww=800;
 int wh=600;
 char Running = 1;
-GLuint shading_program;
-
+GLuint shading_program_id;
 
 GLuint default_shader		(void);
 
-// loads a shader from file and returns the compiled shader
-GLuint GetShader		(GLenum 	, const char *);
-
-//Get and build custom program from 2 files
-GLuint custom_shaders		(const char *	, const char *);
-
-const char * read_file		(const char *);
 float  fTime			(void);
 void   init_glew		(void);
 
 GLuint compile_shader		(GLenum type, GLsizei , const char **);
 GLuint program_check		(GLuint);
-
-
 
 int main(int argc, char *argv[])
 {
@@ -51,23 +40,20 @@ int main(int argc, char *argv[])
 
 	SDL_GLContext glContext = SDL_GL_CreateContext(Window);
 	init_glew();
-// 	shading_program = custom_shaders(VERT, FRAG);
-	shading_program = default_shader();
-	glReleaseShaderCompiler();
+    shading_program_id = default_shader();
 
-
-	if (shading_program == 0){
+	if (shading_program_id == 0){
 		Running = 0;
 	} else
-		SDL_Log("Using program %d\n", shading_program);
+		SDL_Log("Using program %d\n", shading_program_id);
 
 	if (glGetError()!=0)
 		SDL_Log("glError: %#08x\n", glGetError());
 
-	glUseProgram(shading_program);
+	glUseProgram(shading_program_id);
 
 	static GLint uniform_gtime;
-	uniform_gtime = glGetUniformLocation(shading_program, "fTime");
+	uniform_gtime = glGetUniformLocation(shading_program_id, "fTime");
 
 	while (Running){
 		SDL_Event event;
@@ -84,7 +70,7 @@ int main(int argc, char *argv[])
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		glRectf(-1.0, -1.0, 1.0, 1.0);
+		glRectf(-1.0f, -1.0f, 1.0f, 1.0f);
 		glUniform1f(uniform_gtime, fTime());
 		SDL_GL_SwapWindow(Window);
 	}
@@ -170,52 +156,18 @@ void init_glew(void)
 	}
 }
 //BEGIN GPU PROGRAM CREATION
-GLuint custom_shaders(const char *vsPath, const char *fsPath)
-{
-	GLuint vertexShader;
-	GLuint fragmentShader;
-
-	vertexShader   = GetShader(GL_VERTEX_SHADER,   vsPath);
-	fragmentShader = GetShader(GL_FRAGMENT_SHADER, fsPath);
-
-	shading_program = glCreateProgram();
-
-	glAttachShader(shading_program, vertexShader);
-	glAttachShader(shading_program, fragmentShader);
-
-	glLinkProgram(shading_program);
-
-
-	//Error Checking
-	GLuint status;
-	status=program_check(shading_program);
-	if (status==GL_FALSE)
-		return 0;
-	return shading_program;
-
-}
-
-GLuint GetShader(GLenum eShaderType, const char *filename)
-{
-
-	const char *shaderSource=read_file(filename);
-	GLuint shader = compile_shader(eShaderType, 1, &shaderSource);
-	return shader;
-
-}
-
-GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
+GLuint compile_shader(GLenum type, GLsizei sources_count, const char **sources)
 {
 
 	GLuint  shader;
 	GLint   success, len;
-	GLsizei i, srclens[nsources];
+	GLsizei i, source_len[sources_count];
 
-	for (i = 0; i < nsources; ++i)
-		srclens[i] = (GLsizei)strlen(sources[i]);
+	for (i = 0; i < sources_count; ++i)
+        source_len[i] = (GLsizei)strlen(sources[i]);
 
 	shader = glCreateShader(type);
-	glShaderSource(shader, nsources, sources, srclens);
+	glShaderSource(shader, sources_count, sources, source_len);
 	glCompileShader(shader);
 
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -243,13 +195,12 @@ GLuint program_check(GLuint program)
 	if (!status){
 		GLint len;
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &len);
-		SDL_Log("log lenght: %d",len);
+		SDL_Log("log length: %d",len);
 		if (len > 1){
 			char *log;
 			log = malloc(len);
 			glGetProgramInfoLog(program, sizeof(log), &len, log);
 			SDL_LogError(SDL_LOG_CATEGORY_ERROR,"%s\n\n", log);
-			// 			fprintf(stderr, "%s\n\n", log);
 			free(log);
 		}
 		glDeleteProgram(program);
@@ -275,15 +226,15 @@ GLuint default_shader(void)
 	if (frag==0)
 		return 0;
 
-	shading_program = glCreateProgram();
-	glAttachShader(shading_program, vtx);
-	glAttachShader(shading_program, frag);
-	glLinkProgram(shading_program);
+    shading_program_id = glCreateProgram();
+	glAttachShader(shading_program_id, vtx);
+	glAttachShader(shading_program_id, frag);
+	glLinkProgram(shading_program_id);
 
 	GLuint status;
-	status=program_check(shading_program);
+	status=program_check(shading_program_id);
 	if (status==GL_FALSE)
 		return 0;
 
-	return shading_program;
+	return shading_program_id;
 }
