@@ -547,23 +547,23 @@ void query_vars(GLuint choice)
 
 	}
 }
+
 //BEGIN MISC
+
 float fTime(void)
 {
+    static Uint64 start 	 = 0;
+    static Uint64 frequency  = 0;
 
-	static Uint64 start 	 = 0;
-	static Uint64 frequency  = 0;
-	
-	if (start==0){
-		start		=	SDL_GetPerformanceCounter();
-		frequency	=	SDL_GetPerformanceFrequency();
-		return 0.0f;
-	}
-	Uint64 counter    = 0;
-	       counter    = SDL_GetPerformanceCounter();
-	Uint64 accumulate = counter - start;
-	return   (float)accumulate / (float)frequency;
+    if (start==0){
+        start		=	SDL_GetPerformanceCounter();
+        frequency	=	SDL_GetPerformanceFrequency();
+        return 0.0f;
+    }
+    Uint64 counter    = SDL_GetPerformanceCounter();
+    Uint64 accumulate = counter - start;
 
+    return   (float)accumulate / (float)frequency;
 }
 
 void init_glew(void)
@@ -620,12 +620,12 @@ const char * read_file(const char *filename)
 		return result;
 	}
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR,"Couldn't read %s", filename);
+
 	return NULL;
 }
 
 int write_STFS(void)
 {
-
 	FILE *fp;
 	fp = fopen( ""NEW_FILE , "w" );
 	fputs(default_fragment_shader_1, fp);
@@ -635,8 +635,8 @@ int write_STFS(void)
 	system(editor_call);
 	switch_counter=0;
 	shader_switch();
-	return(0);
 
+	return(0);
 }
 
 struct epoll_event reset_poll(int halt)
@@ -690,6 +690,7 @@ GLuint compile_STFS(void)
 	
 	GLuint status;
 	status=program_check(shading_program_id[4]);
+
 	if (status==GL_FALSE){
 		return 0;
 	}else{
@@ -720,10 +721,10 @@ void shader_switch(void)
 	query_shadertoy_old_vars(switch_counter);
 	glEnableVertexAttribArray	(attrib_position);
 	glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-
-	glViewport (0, 0, ww, wh);
-	glUniform3f(uniform_res, ww, wh, 0.0f);
+    glUniform3f(uniform_res, (float)ww, (float)wh, 0.0f);
+    glViewport (0, 0, ww, wh);
 }
+
 //END 	MISC
 
 //END FUNCTIONS

@@ -1,14 +1,17 @@
 //BEGIN HEAD
+
 //BEGIN DESCRIPTION
+
 /* load shader toy fragment shader as argument
  * query some vars on demand
- * TODO query all vars on demand
- * TODO more flexibility through custom shader and query all
- * vars after loading shader code.
+ * TODO: query all vars on demand
+ * TODO: more flexibility through custom shader and query all vars after loading shader code.
  */
+
 //END 	DESCRIPTION
 
 //BEGIN INCLUDES
+
 #ifdef _WIN32
 #include <SDL.h>
 #include <SDL_image.h>
@@ -23,9 +26,11 @@
 #include <SDL2/SDL_image.h> // Just for the icon - easy to strip out
 #include "default_shaders.h"
 #include <string.h>
+
 //END 	INCLUDES
 
 //BEGIN GLOBALS
+
 int ww=500;
 int wh=281;
 
@@ -158,6 +163,7 @@ int main(int argc, const char *argv[])
 	glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
 	glUniform3f			(uniform_res, ww, wh, 0.0f);
 	//END 	SHADER INIT
+
 	SDL_Point mouse;
 	char MBL_CLICK=0;
 	SDL_Event event;
@@ -167,6 +173,7 @@ int main(int argc, const char *argv[])
 	//BEGIN MAINLOOP
 
 	while (Running){
+
 		//BEGIN EVENTS
 		while ( SDL_PollEvent(&event) ){
 			SDL_GetMouseState(&mouse.x, &mouse.y);
@@ -177,7 +184,7 @@ int main(int argc, const char *argv[])
 					ww=event.window.data1;
 					wh=event.window.data2;
 					glViewport (0, 0, ww, wh);
-					glUniform3f(uniform_res, ww, wh, 0.0f);
+					glUniform3f(uniform_res, (float)ww, (float)wh, 0.0f);
 				}
 			}
 			if(event.type == SDL_MOUSEMOTION){
@@ -237,6 +244,7 @@ int main(int argc, const char *argv[])
 	//END 	MAINLOOP
 
 	//BEGIN EXIT
+
 	for (int i=0; i<3; i++){
 		if (glIsProgram(shading_program_id[i]))
 			glDeleteProgram(shading_program_id[i]);
@@ -245,13 +253,16 @@ int main(int argc, const char *argv[])
 	SDL_Quit();
 
 	return EXIT_SUCCESS;
+
 	//END 	EXIT
 }
+
 //END	MAIN
 
 //BEGIN FUNCTIONS
 
 //BEGIN GPU PROGRAM CREATION
+
 GLuint custom_shaders(const char *vsPath, const char *fsPath)
 {
 	GLuint vertexShader;
@@ -271,8 +282,8 @@ GLuint custom_shaders(const char *vsPath, const char *fsPath)
 	status=program_check(shading_program_id[3]);
 	if (status==GL_FALSE)
 		return 0;
-	return shading_program_id[3];
 
+	return shading_program_id[3];
 }
 
 GLuint shadertoy_shader(const char *fsPath)
@@ -299,24 +310,22 @@ GLuint shadertoy_shader(const char *fsPath)
 
 	GLuint status;
 	status=program_check(shading_program_id[3]);
+
 	if (status==GL_FALSE)
 		return 0;
-	return shading_program_id[3];
 
+	return shading_program_id[3];
 }
 
 GLuint GetShader(GLenum eShaderType, const char *filename)
 {
-
 	const char *shaderSource=read_file(filename);
 	GLuint shader = compile_shader(eShaderType, 1, &shaderSource);
 	return shader;
-
 }
 
 GLuint compile_shader(GLenum type, GLsizei nsources, const char **sources)
 {
-
 	GLuint  shader;
 	GLint   success, len;
 	GLsizei i, srclens[nsources];
@@ -379,7 +388,6 @@ GLuint default_shaders(GLuint choice)
 	glAttachShader(shading_program_id[choice], frag);
 	glLinkProgram(shading_program_id[choice]);
 
-
 	GLuint status;
 	status=program_check(shading_program_id[choice]);
 	if (status==GL_FALSE)
@@ -397,12 +405,10 @@ GLuint default_vertex(void)
 	sources[1] = vertex_shader_body;
 	vtx = compile_shader(GL_VERTEX_SHADER, 2, sources);
 	return vtx;
-
 }
 
 GLuint program_check(GLuint program)
 {
-
 	GLint status;
 	glValidateProgram(program);
 	glGetProgramiv(program, GL_LINK_STATUS, &status);
@@ -419,13 +425,14 @@ GLuint program_check(GLuint program)
 		SDL_Log("Error linking shader default program.\n");
 		return GL_FALSE;
 	}
+
 	return GL_TRUE;
 }
+
 //END 	GPU PROGRAM CREATION
 
 void query_shadertoy_old_vars(GLuint choice)
 {
-
 	sampler_channel[0] = glGetUniformLocation(shading_program_id[choice], "iChannel0");
 	sampler_channel[1] = glGetUniformLocation(shading_program_id[choice], "iChannel1");
 	sampler_channel[2] = glGetUniformLocation(shading_program_id[choice], "iChannel2");
@@ -439,7 +446,6 @@ void query_shadertoy_old_vars(GLuint choice)
 
 void query_vars(GLuint choice)
 {
-
 	GLint i;
 	GLint count;
 
@@ -458,9 +464,7 @@ void query_vars(GLuint choice)
 		if (!strcmp("iPosition",name)){
 			attrib_position = i;
 		}
-
 	}
-
 
 	glGetProgramiv(shading_program_id[choice], GL_ACTIVE_UNIFORMS, &count);
 
@@ -475,13 +479,13 @@ void query_vars(GLuint choice)
 		}
 		if (!strcmp("iMouse",name))
 			uniform_mouse = i;
-
 	}
 }
+
 //BEGIN MISC
+
 float fTime(void)
 {
-
 	static Uint64 start 	 = 0;
 	static Uint64 frequency  = 0;
 
@@ -491,11 +495,10 @@ float fTime(void)
 		return 0.0f;
 	}
 
-	Uint64 counter    = 0;
-	       counter    = SDL_GetPerformanceCounter();
+    Uint64 counter    = SDL_GetPerformanceCounter();
 	Uint64 accumulate = counter - start;
-	return   (float)accumulate / (float)frequency;
 
+	return   (float)accumulate / (float)frequency;
 }
 
 void init_glew(void)
@@ -528,7 +531,7 @@ void init_glew(void)
 
 const char * read_file(const char *filename)
 {
-	long length = 0;
+	long length;
 	char *result = NULL;
 	FILE *file = fopen(filename, "r");
 	if(file) {
@@ -552,6 +555,7 @@ const char * read_file(const char *filename)
 		return result;
 	}
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR,"Couldn't read %s", filename);
+
 	return NULL;
 }
 
@@ -566,10 +570,10 @@ void shader_switch(void)
 	query_shadertoy_old_vars(switch_counter);
 	glEnableVertexAttribArray	(attrib_position);
 	glVertexAttribPointer		(attrib_position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-
+    glUniform3f(uniform_res, (float)ww, (float)wh, 0.0f);
 	glViewport (0, 0, ww, wh);
-	glUniform3f(uniform_res, ww, wh, 0.0f);
 }
+
 //END 	MISC
 
 //END FUNCTIONS
