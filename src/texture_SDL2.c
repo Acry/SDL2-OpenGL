@@ -162,15 +162,14 @@ void assets_in(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 
 	glTexImage2D	(GL_TEXTURE_2D, 	// target
-			 0, 			// level, 0 = base, no minimap,
-			GL_RGB, 		// internalformat
-			surface->w, 		// width
-			surface->h, 		// height
-			0, 			// This value must be 0.
-			GL_RGB,			// format
-			GL_UNSIGNED_BYTE, 	// data type of the pixel datatype
-			surface->pixels);
-
+                     0, 			// level, 0 = base, no minimap,
+                    GL_RGB, 		// internalformat
+                    surface->w, 		// width
+                    surface->h, 		// height
+                    0, 			// This value must be 0.
+                    GL_RGB,			// format
+                    GL_UNSIGNED_BYTE, 	// data type of the pixel datatype
+                    surface->pixels);
 
 	SDL_FreeSurface(surface);
 
@@ -206,8 +205,8 @@ SDL_Surface * flip_horizontal(SDL_Surface *sfc)
 		pixels -= pitch;			// count down
 		rpixels += pitch;			// count up
 	}
-	return result;
 
+	return result;
 }
 
 SDL_Surface * flip_vertical(SDL_Surface *sfc)
@@ -228,6 +227,6 @@ SDL_Surface * flip_vertical(SDL_Surface *sfc)
 		}
 		rpixels+=2*pitch;
 	}
-	return result;
 
+	return result;
 }
