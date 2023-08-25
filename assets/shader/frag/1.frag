@@ -13,5 +13,4 @@ void main()
 	// i-th enabled draw buffer and these days fragment shader outputs
 	// are simply declared as "out" variables, see also:
 	// https://www.khronos.org/opengl/wiki/Fragment_Shader
-
 }
