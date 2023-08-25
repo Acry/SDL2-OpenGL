@@ -2,7 +2,7 @@
 // It is only here for reference.
 #version 110
 // compare to https://www.shadertoy.com/new
-varying 		vec2  fragCoord;
+varying 	vec2  fragCoord;
 uniform 	float fTime; 		//Current time in float seconds
 
 float normalize_C(float x, float x_min, float x_max, float r_min, float r_max )

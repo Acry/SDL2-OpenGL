@@ -1,6 +1,6 @@
 #version 110
 
-varying 		vec2 fragCoord;
+varying 	vec2 fragCoord;
 
 // Normalize NDC to range [0,1]
 float normalize_C(float x, float x_min, float x_max, float r_min, float r_max )
