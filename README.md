@@ -5,6 +5,22 @@ This is a series of OpenGL examples.
 Some OpenGL 2.1 and 3.3 examples, using SDL2 and GLEW as function wrangler.
 And a bit GLSL for C-Coders.
 
+___
+
+ARCHIVED:
+
+This Repository is quite old and I will not update most of the code anymore.
+If I find bugs I will fix them, but I will not add new features.
+
+I corrected some misspellings und miss understandings I had back in the days and added some comments.
+
+The 3rd part will be refactored and corrected, but then this repository will be archived.
+
+The new work is not available publicly, since nobody really contributes to any open source code where he does not see
+any benefit, beside learning.
+
+___
+
 ## Legacy OpenGL
 
  `Immediate mode` is nice because the entry barrier is extremely low.
@@ -85,4 +101,4 @@ Some examples to load image textures with selected libraries:
 
 ## Useful links
 
-[SDL2](https://www.libsdl.org/) | [SDL-Discourse](https://discourse.libsdl.org) | [SDL2-Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8) | [N. Nopper-Code](https://github.com/McNopper/OpenGL) | [McKesson-Book](https://paroj.github.io/gltut/) | [Íñigo Quílez](http://www.iquilezles.org/prods/index.htm)
+[SDL2](https://www.libsdl.org/) | [SDL-Discourse](https://discourse.libsdl.org) | [SDL2-Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8) | [N. Nopper-Code](https://github.com/McNopper/OpenGL) | [McKesson-Book](https://paroj.github.io/gltut/) | [Íñigo Quílez](http://www.iquilezles.org/prods/index.htm) | [MESA Demos](https://archive.mesa3d.org/demos/)
