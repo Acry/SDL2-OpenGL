@@ -35,6 +35,14 @@ GLuint texture;
 
 //BEGIN FUNCTION PROTOTYPES
 void assets_in	(void);
+
+// These functions are here for reference and might go to helper_sdl.c - but I am not sure,
+// which image library I will use in the end.
+
+// Other ways to flip images:
+// Flip Texture Coordinates in the Buffer Data.
+// Flip Texture Coordinates in the Vertex Shader. texCoord.y = 1.0 - texCoord.y; (once per vertex)
+// Flip Texture Coordinates in the Fragment Shader. texCoord.y = 1.0 - texCoord.y; (once per fragment)
 SDL_Surface * flip_vertical	(SDL_Surface *);
 SDL_Surface * flip_horizontal	(SDL_Surface *);
 //END	FUNCTION PROTOTYPES
