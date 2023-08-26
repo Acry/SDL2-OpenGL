@@ -9,7 +9,7 @@
  * Also the GL-API defines quite a sophisticated working set, which is pretty
  * mature but also very cluttered when it comes to Extensions.
  * 
- * It's quite normal, the same happend to the X-Window System.
+ * It's quite normal, the same happened to the X-Window System.
  * You can't have flexibility without complexity.
  * 
  * And those API's are around for a long time in terms of
@@ -24,9 +24,6 @@
  * However, learning GLSL does open the door to modern Graphics Hardware,
  * the GPU offers thousands of parallel computing cores and GLSL can be used
  * with Vulkan also.
- * 
- *
- *
  */
 
 /* DEFINED PROGRESS GOALS
@@ -47,43 +44,51 @@
  * 
  * SDL_GL_SwapWindow(Window) replaces SDL_RenderPresent(Renderer);
  * Not going to deal with the mix of both API's here!
- * 
  */
+
 //END   DESCRIPTION
 
 //BEGIN INCLUDES
+
 //system headers
 #include <math.h>
 //local headers
 #include "helper.h"
+
 //END   INCLUDES
 
 //BEGIN CPP DEFINITIONS
+
 #define GL_GREY .5, .5, .5, 1
 
 #define WW 	550
 #define WH 	(WW/16)*12
+
 //END   CPP DEFINITIONS
 
 //BEGIN DATASTRUCTURES
+
 //END	DATASTRUCTURES
 
 //BEGIN GLOBALS
+
 int ww=WW;
 int wh=WH;
 
 //BEGIN VISIBLES
-//END 	VISIBLES
 
+//END 	VISIBLES
 
 //END   GLOBALS
 
 //BEGIN FUNCTION PROTOTYPES
+
 //END	FUNCTION PROTOTYPES
 
 //END 	HEAD
 
 //BEGIN MAIN FUNCTION
+
 int main(int argc, char *argv[])
 {
 
@@ -91,13 +96,16 @@ int main(int argc, char *argv[])
 (void)argv;
 
 //BEGIN INIT
+
 init();
 
 //BEGIN WINDOW
+
 SDL_SetWindowPosition(Window,0,0);
 SDL_SetWindowSize(Window,ww,wh);
 SDL_SetWindowTitle(Window, "OpenGL Window");
 SDL_ShowWindow(Window);
+
 //END WINDOW
 
 // Don't clear a window to black, it's harder to debug!
@@ -132,12 +140,15 @@ glClear(GL_COLOR_BUFFER_BIT);
 
 SDL_Event event;
 int running = 1;
+
 //END   INIT
 
 //BEGIN MAIN LOOP
+
 while(running){
 
 	//BEGIN EVENT LOOP
+
 	while(SDL_PollEvent(&event)){
 		if(event.type == SDL_QUIT){
 			running =0;
@@ -175,12 +186,19 @@ while(running){
 			}
 		}
 	}
+
 	//END   EVENT LOOP
+
 	//BEGIN RENDERING
+
 	SDL_GL_SwapWindow(Window);
+
 	//END   RENDERING
+
 }
+
 //END   MAIN LOOP
+
 exit_();
 return EXIT_SUCCESS;
 
@@ -188,4 +206,5 @@ return EXIT_SUCCESS;
 //END   MAIN FUNCTION
 
 //BEGIN FUNCTIONS
+
 //END   FUNCTIONS
