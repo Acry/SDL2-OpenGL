@@ -21,7 +21,25 @@ BUILD_DIR := build/
 # Create the build directory if it doesn't exist
 $(shell mkdir -p $(BUILD_DIR))
 
-TARGETS	 =  0 0a 1 1a 1b 1c 2 2a 2a1 2b 2c 2d 3 3a1 3a2 texture_SOIL texture_SDL2 texture_devil texture_stb_image
+TARGETS	 = 0 \
+           0a \
+           1 \
+           1a \
+           1b \
+           1c \
+           2 \
+           2a \
+           2a1 \
+           2b \
+           2c \
+           2d \
+           3 \
+           3a1 \
+           3a2 \
+           texture_SOIL \
+           texture_SDL2 \
+           texture_devil \
+           texture_stb_image
 
 .PHONY: all
 all: $(TARGETS)
