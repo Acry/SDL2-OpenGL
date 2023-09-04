@@ -23,6 +23,8 @@ ___
 
 ## Legacy OpenGL
 
+[See Chapter 3 of the graphicsbook for a good introduction to OpenGL 1.1](https://math.hws.edu/graphicsbook/c3/index.html)
+
  `Immediate mode` is nice because the entry barrier is extremely low.
 
 - `0` - Init a simple OpenGL Window, on Linux it defaults to OpenGL 2.1
@@ -101,4 +103,4 @@ Some examples to load image textures with selected libraries:
 
 ## Useful links
 
-[SDL2](https://www.libsdl.org/) | [SDL-Discourse](https://discourse.libsdl.org) | [SDL2-Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8) | [N. Nopper-Code](https://github.com/McNopper/OpenGL) | [McKesson-Book](https://paroj.github.io/gltut/) | [Íñigo Quílez](http://www.iquilezles.org/prods/index.htm) | [MESA Demos](https://archive.mesa3d.org/demos/)
+[SDL2](https://www.libsdl.org/) | [SDL-Discourse](https://discourse.libsdl.org) | [SDL2-Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8) | [N. Nopper-Code](https://github.com/McNopper/OpenGL) | [McKesson-Book](https://paroj.github.io/gltut/) | [Íñigo Quílez](http://www.iquilezles.org/prods/index.htm) | [MESA Demos](https://archive.mesa3d.org/demos/) | [BSVino/docs.gl: OpenGL Reference Documentation](https://github.com/BSVino/docs.gl) | [graphicsbook: sources for a free graphics textbook hosted at https://math.hws.edu/graphicsbook](https://github.com/davidjeck/graphicsbook/)
