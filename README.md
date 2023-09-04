@@ -19,6 +19,9 @@ The 3rd part will be refactored and corrected, but then this repository will be 
 The new work is not available publicly, since nobody really contributes to any open source code where he does not see
 any benefit, beside learning.
 
+There is a lot documentation in the code, but it is not a tutorial.
+To separate code and documentation the CG-Wiki was created. And in the continued project it is used as a submodule.
+
 ___
 
 ## Legacy OpenGL
@@ -44,10 +47,15 @@ ___
 
 ![Screenshot](shots/shot_1c.c.jpg)
 
-- `1d` - SGI Teapot Demo ported to SDL2 (**TBD**)
+- `1d` - SGI Teapot Demo ported to SDL2 (**TBD**) - perhaps
 <http://ftp.funet.fi/pub/sci/graphics/packages/objects/teasetorig.gz>
 
-- `1e` - SGI Atlantis Demo ported to SDL2 (**TBD**)
+![Screenshot](shots/teapot.png)
+
+- `1e` - SGI Atlantis Demo ported to SDL2 (**TBD**) - perhaps
+<https://www.cs.kent.edu/~farrell/graphics/opengl/glut-3.0/progs/demos/atlantis/>
+
+![Screenshot](shots/atlantis.png)
 
 ## Modern OpenGL
 
@@ -97,10 +105,15 @@ Some examples to load image textures with selected libraries:
 - texture_SOIL
 - texture_stb_image
 
+## See also
+
+- [Training Plan](training_plan.md)
+- [OpenGL - Hard Skills](hard_skills.md)
+
 ## Dependencies
 
 `pacman -S soil devil sdl2 sdl2_image glew glu`
 
 ## Useful links
 
-[SDL2](https://www.libsdl.org/) | [SDL-Discourse](https://discourse.libsdl.org) | [SDL2-Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8) | [N. Nopper-Code](https://github.com/McNopper/OpenGL) | [McKesson-Book](https://paroj.github.io/gltut/) | [Íñigo Quílez](http://www.iquilezles.org/prods/index.htm) | [MESA Demos](https://archive.mesa3d.org/demos/) | [BSVino/docs.gl: OpenGL Reference Documentation](https://github.com/BSVino/docs.gl) | [graphicsbook: sources for a free graphics textbook hosted at https://math.hws.edu/graphicsbook](https://github.com/davidjeck/graphicsbook/)
+[SDL2](https://www.libsdl.org/) | [SDL-Discourse](https://discourse.libsdl.org) | [SDL2-Example Code](https://gist.github.com/Acry/baa861b8e370c6eddbb18519c487d9d8) | [N. Nopper-Code](https://github.com/McNopper/OpenGL) | [McKesson-Book](https://paroj.github.io/gltut/) | [Íñigo Quílez](http://www.iquilezles.org/prods/index.htm) | [MESA Demos](https://archive.mesa3d.org/demos/) | [BSVino/docs.gl: OpenGL Reference Documentation](https://github.com/BSVino/docs.gl) | [graphicsbook: sources for a free graphics textbook hosted at https://math.hws.edu/graphicsbook](https://github.com/davidjeck/graphicsbook/) | [opengl46-quick-reference-card.pdf](https://www.khronos.org/assets/uploads/developers/presentations/opengl46-quick-reference-card.pdf)
