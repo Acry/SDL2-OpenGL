@@ -1,0 +1,1 @@
+/home/carsten/NAS_PF/Carsten/IT/docs/Computer Science/Practical/Complex Subjects/Graphics/cg-wiki/opengl/workflow/training_plan.md
